@@ -19,60 +19,34 @@ auto log function calls in operation/action model with a single line of code, ba
 - [quickstart](#quickstart)
 - [install](#install)
 - [usage](#usage)
-   * [action function format](#action-function-format)
-   * [operation function format](#operation-function-format)
-   * [use with other enhancers](#use-with-other-enhancers)
-   * [default filtered fields](#default-filtered-fields)
-   * [reserved filed override](#reserved-field-override)
-   * [test stub](#test-stub)
-- [built-in](#built-in)
-   * [out-of-box error parsing support](#out-of-box-error-parsing-support)
-   * [clean up log object](#clean-up-log-object)
-- [example](#example)
-- [development](#development)
-- [todos](#todos)
+   * [operation function](#operation-function)
 
 <br>
 
 ## quickstart
 ```js
-import { 
-  autoLogAction, 
-  autoLogActions, 
-  autoLogOp,
-  autoLogOps,
-  toMiddleware,
-  toMiddlewares,
-} from '@financial-times/n-express-enhancer';
+import { toMiddleware, toMiddlewares, enhancedRender } from '@financial-times/n-express-enhancer';
+```
+```js
+// use enhancedRender before any converted middleware
+app.use('/route', enhancedRender, convertedMiddleware);
 ```
 
 ```js
-// auto log a function of its start, success/failure state with function name as `action`
-const result = autoLogAction(someFunction)(args: Object, meta?: Object);
+// convert an operation function to an express middleware
+const operationFunction = (meta, req, res) => {};
 
-// auto log multiple functions wrapped in an object
-const APIService = autoLogActions({ methodA, methodB, methodC });
+export default toMiddleware(operationFunction);
 ```
 
-> more details on [action function format](#action-function-format)
+> more details on [operation function](#operation-function)
 
 ```js
-// auto log an operation function of its start, success/failure state with function name as `operation`
-const operationFunction = (meta, req, res) => { /* try-catch-throw */ };
-
-const someMiddleware = compose(toMiddleware, autoLogOp)(operationFunction) 
-
-// auto log multiple operation functions wrapped in an object as controller
-const someController = compose(toMiddlewares, autoLogOps)({ operationFunctionA, operationFuncitonB });
-```
-
-> more details on [operation function format](#operation-function-format)
-
-> more details on [use with other enhancers](#use-with-other-enhancers)
-
-```js
-// set key names of fields to be muted in .env to reduce log for development or filter fields in production
-LOGGER_MUTE_FIELDS=transactionId, userId
+// convert a set of operation functions wrapped in an object
+export default toMiddlewares({
+  operationFunctionA,
+  operationFunctionB,
+});
 ```
 
 ## install
@@ -81,3 +55,38 @@ npm install @financial-times/n-express-enhancer
 ```
 
 ## usage
+
+### operation function
+
+#### `resless` operation function
+
+```js
+const operation = async (meta, req) => {
+  try {
+    const { params } = req;
+    const data = await fetchSomeData(paramA, meta);
+  } catch(e) {
+    // specify error handling for this particular step, recommending use `n-error`
+    // ...
+    // resless operation function must throw the enriched error object, and it would be forwarded to the errorHandler middleware
+    throw e;
+  }
+  return data;
+};
+```
+
+#### `resful` operation function
+
+```js
+const operation = async (meta, req, res) => {
+  try {
+    const { params } = req;
+    const data = await fetchSomeData(params, meta);
+  } catch(e) {
+    // write the error handling behaviour and end the request here
+    // ...
+    res.stats(e.status).render('errorPage', e);
+  }
+  return data;
+};
+```
