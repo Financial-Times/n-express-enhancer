@@ -25,11 +25,7 @@ common components you need to build an express middleware enhancer
 
 ## quickstart
 ```js
-import { toMiddleware, toMiddlewares, enhancedRender } from '@financial-times/n-express-enhancer';
-```
-```js
-// use enhancedRender before any converted middleware
-app.use('/route', enhancedRender, convertedMiddleware);
+import { toMiddleware, enhancedRender } from '@financial-times/n-express-enhancer';
 ```
 
 ```js
@@ -43,10 +39,17 @@ export default toMiddleware(operationFunction);
 
 ```js
 // convert a set of operation functions wrapped in an object
-export default toMiddlewares({
+export default toMiddleware({
   operationFunctionA,
   operationFunctionB,
 });
+```
+
+> Error would be thrown if input to toMiddleware is not a function or a function bundle
+
+```js
+// use enhancedRender before any converted middleware if you need to use `res.render`
+app.use('/route', enhancedRender, convertedMiddleware);
 ```
 
 ## install
