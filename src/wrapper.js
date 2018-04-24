@@ -5,8 +5,8 @@ export const toMiddlewareWrapper = input => {
 		case 'function':
 			return toMiddleware(input);
 		case 'object':
-			Object.values(input).forEach(method => {
-				if (typeof method !== 'function') {
+			Object.keys(input).forEach(key => {
+				if (typeof input[key] !== 'function') {
 					throw Error(
 						'all methods in an object of operation function bundle need to be valid operation function',
 					);
