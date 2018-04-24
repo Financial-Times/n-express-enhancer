@@ -3,6 +3,7 @@ import request from 'supertest';
 import compose from 'compose-function';
 
 import { toMiddleware, toMiddlewares } from '../convertor';
+import enhancedRender from '../renderer';
 
 const commonErrorInstance = { status: 404, message: 'Not Found' };
 const errorOperationFunction = () => {
@@ -34,6 +35,9 @@ const resMock = {
 		resMock.headersSent = true;
 	},
 	send: () => {
+		resMock.headersSent = true;
+	},
+	render: () => {
 		resMock.headersSent = true;
 	},
 	reset: () => {
@@ -196,6 +200,38 @@ describe('toMiddleware', () => {
 				expect(response.statusCode).toBe(500);
 				expect(response.text).toBe('internal server error');
 			});
+		});
+	});
+
+	describe('converted resful operation function of res.render works with enhancedRender in case of ', () => {
+		it('sucess', async () => {
+			const operationFunction = (meta, req, res) => {
+				res.render();
+			};
+			const middleware = toMiddleware(operationFunction);
+			const next = jest.fn();
+			await enhancedRender({}, resMock, next);
+			expect(next.mock.calls).toHaveLength(1);
+			expect(resMock.rendered).toBe(undefined);
+			await middleware({}, resMock, next);
+			expect(next.mock.calls).toHaveLength(1);
+			expect(resMock.rendered).toBe(true);
+		});
+
+		it('failure', async () => {
+			const operationFunction = (meta, req, res) => {
+				try {
+					throw commonErrorInstance;
+				} catch (e) {
+					res.render('some page');
+				}
+			};
+			const middleware = toMiddleware(operationFunction);
+			const next = jest.fn();
+			await enhancedRender({}, resMock, next);
+			expect(next.mock.calls).toHaveLength(1);
+			await middleware({}, resMock, next);
+			expect(next.mock.calls).toHaveLength(1);
 		});
 	});
 
