@@ -35,8 +35,6 @@ const operationFunction = (meta, req, res) => {};
 export default toMiddleware(operationFunction);
 ```
 
-> more details on [operation function](#operation-function)
-
 ```js
 // convert a set of operation functions wrapped in an object
 export default toMiddleware({
@@ -44,6 +42,7 @@ export default toMiddleware({
   operationFunctionB,
 });
 ```
+> more details on [operation function](#operation-function)
 
 > Error would be thrown if input to toMiddleware is not a function or a function bundle
 
