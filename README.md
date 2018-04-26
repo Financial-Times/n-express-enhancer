@@ -18,7 +18,7 @@ common components you need to build an express middleware enhancer
 
 - [quickstart](#quickstart)
 - [install](#install)
-- [usage](#usage)
+- [developer](#developer)
   * [develop an enhancer](#develop-an-enhancer)
 - [terminology](#terminology)
   * [operation function](#operation-function)
@@ -59,7 +59,7 @@ app.use('/route', enhancedRender, convertedMiddleware);
 npm install @financial-times/n-express-enhancer
 ```
 
-## usage
+## developer
 
 ### develop an enhancer
 ```js
