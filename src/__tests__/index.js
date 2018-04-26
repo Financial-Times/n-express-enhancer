@@ -1,4 +1,4 @@
-import { toMiddleware, enhancedRender } from '../index';
+import { toMiddleware, enhancedRender, createEnhancer } from '../index';
 
 describe('n-express-enhancer exports', () => {
 	it('toMiddleware', () => {
@@ -7,5 +7,9 @@ describe('n-express-enhancer exports', () => {
 
 	it('enhancedRender', () => {
 		expect(typeof enhancedRender).toBe('function');
+	});
+
+	it('createEnhancer', () => {
+		expect(typeof createEnhancer).toBe('function');
 	});
 });

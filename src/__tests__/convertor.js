@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import compose from 'compose-function';
 
-import { toMiddleware, toMiddlewares } from '../convertor';
+import toMiddleware from '../convertor';
 import enhancedRender from '../renderer';
 
 const commonErrorInstance = { status: 404, message: 'Not Found' };
@@ -47,17 +47,10 @@ const resMock = {
 	headersSent: false,
 };
 
-describe('toMiddleware', () => {
+describe('toMiddleware input operation function', () => {
 	afterEach(() => {
 		jest.resetAllMocks();
 		resMock.reset();
-	});
-
-	it('sustain operation function name', () => {
-		const operationFunction = () => {};
-		const converted = toMiddleware(operationFunction);
-		expect(converted.name).toBe(operationFunction.name);
-		expect(converted.name).toBe('operationFunction');
 	});
 
 	describe('convert operation function to an express middleware', () => {
@@ -297,7 +290,7 @@ describe('toMiddleware', () => {
 	});
 });
 
-describe('toMiddlewares', () => {
+describe('toMiddleware input operaiton funciton bundle', () => {
 	afterEach(() => {
 		jest.resetAllMocks();
 	});
@@ -309,7 +302,7 @@ describe('toMiddlewares', () => {
 		const operationFunctionB = (meta, req, res) => {
 			res.status(200).send(meta);
 		};
-		const enhanced = toMiddlewares({
+		const enhanced = toMiddleware({
 			operationFunctionA,
 			operationFunctionB,
 		});
@@ -322,19 +315,5 @@ describe('toMiddlewares', () => {
 		expect(resA.statusCode).toBe(200);
 		const resB = await request(app).get('/b');
 		expect(resB.statusCode).toBe(200);
-	});
-
-	it('set anonymous function names as per property name correctly', async () => {
-		const createOperationFunction = () => (meta, req, res) => {
-			res.status(200).send(meta);
-		};
-		const operationFunctionA = createOperationFunction();
-		const operationFunctionB = createOperationFunction();
-		const enhanced = toMiddlewares({
-			operationFunctionA,
-			operationFunctionB,
-		});
-		expect(enhanced.operationFunctionA.name).toBe('operationFunctionA');
-		expect(enhanced.operationFunctionB.name).toBe('operationFunctionB');
 	});
 });

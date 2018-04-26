@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`toMiddleware handle error in operation function by next(e) thrown error to errorHandler when convert resless operation function of  async 1`] = `
+exports[`toMiddleware input operation function handle error in operation function by next(e) thrown error to errorHandler when convert resless operation function of  async 1`] = `
 Array [
   Array [
     Object {
@@ -11,7 +11,7 @@ Array [
 ]
 `;
 
-exports[`toMiddleware handle error in operation function by next(e) thrown error to errorHandler when convert resless operation function of  non-async 1`] = `
+exports[`toMiddleware input operation function handle error in operation function by next(e) thrown error to errorHandler when convert resless operation function of  non-async 1`] = `
 Array [
   Array [
     Object {

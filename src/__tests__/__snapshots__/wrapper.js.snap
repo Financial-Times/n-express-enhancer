@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`toMiddlewareWrapper throws error if given invalid input 1`] = `"input of toMiddleware() needs to be an operation function or a set of operation functions wrapped in an object"`;
-
-exports[`toMiddlewareWrapper throws error if given invalid input 2`] = `"all methods in an object of operation function bundle need to be valid operation function"`;
