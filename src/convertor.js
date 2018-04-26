@@ -6,9 +6,9 @@ export const toMiddleware = operationFunction => {
 				next();
 			}
 		} catch (e) {
-			if (!res.headersSent && !res.rendered) {
-				next(e);
-			}
+			// in case of error handled inside a resful operationFunction
+			// error wouldn't be further thrown and therefore not caught here
+			next(e);
 		}
 	};
 	Object.defineProperty(convertedFunction, 'name', {

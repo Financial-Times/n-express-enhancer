@@ -42,6 +42,7 @@ const resMock = {
 	},
 	reset: () => {
 		resMock.headersSent = false;
+		resMock.rendered = undefined;
 	},
 	headersSent: false,
 };
@@ -204,7 +205,7 @@ describe('toMiddleware', () => {
 	});
 
 	describe('converted resful operation function of res.render works with enhancedRender in case of ', () => {
-		it('sucess', async () => {
+		it('success', async () => {
 			const operationFunction = (meta, req, res) => {
 				res.render();
 			};
@@ -230,8 +231,10 @@ describe('toMiddleware', () => {
 			const next = jest.fn();
 			await enhancedRender({}, resMock, next);
 			expect(next.mock.calls).toHaveLength(1);
+			expect(resMock.rendered).toBe(undefined);
 			await middleware({}, resMock, next);
 			expect(next.mock.calls).toHaveLength(1);
+			expect(resMock.rendered).toBe(true);
 		});
 	});
 
