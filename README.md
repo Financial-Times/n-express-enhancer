@@ -23,6 +23,8 @@ common components you need to build an express middleware enhancer
 - [terminology](#terminology)
   * [operation function](#operation-function)
   * [operation function bundle](#operation-function-bundle)
+  * [action function](#action-function)
+  * [action function bundle](#action-function-bundle)
   * [enhancement function](#enhancement-function)
   * [enhancer](#enhancer)
 
@@ -64,14 +66,14 @@ npm install @financial-times/n-express-enhancer
 ### develop an enhancer
 ```js
 // use `createEnhancer` to create an enhancer that could 
-// enhance both individual function or function bundle
+// enhance both individual function or function bundle (either operation or action)
 import { createEnhancer } from '@financial-times/n-express-enhancer';
 
 // Enhancement Function
-const enhancerName = operationFunction => (/* output function signature */) => {
+const enhancerName = inputFunction => (/* output function signature */) => {
   //... do the enhancement or side effect you want
-  //... remember to invoke the orignal operationFunction
-  operationFunction();
+  //... remember to invoke the orignal inputFunction
+  inputFunction();
 };
 
 export default createEnhancer(enhancerName);
@@ -138,11 +140,19 @@ const bundle = {
 };
 ```
 
+### action function
+
+Operation Function generally refers to a function with such signature `(params, meta) => {}` that is friendly for logger, validator, etc. 
+
+### action function bundle
+
+Similarly, Action Function Bundle is an Object that wraps Action Funcitons as methods, methods of which can be enhanced by enhancers when input the bundle. No values other than functions are allowed.
+
 ### enhancement function
 
-Enhancement Function generally refers to curry functions that take an Operation Function as the input, and add extra logics (such as logging, params update) to invoke the Operation Function, which can be augmented by `createEnhancer` to be able to enhance both individual Operation Function or Operation Function Bundle. 
+Enhancement Function generally refers to curry functions that take an Operation Function/Action Function as the input, and add extra logics (such as logging, params update) and invoke the original input function. Enhancement Function itself can only enhance individual input function. 
 
-> the original function names would be sustained or method names would be used as function names
+It can be augmented by `createEnhancer` to be able to enhance both individual function and function bundle. 
 
 ```js
 const enhancementFunction = operationFunction => (/* output function signature */) => {
@@ -154,4 +164,7 @@ const enhancementFunction = operationFunction => (/* output function signature *
 
 ### enhancer
 
-Enhancers are higher-order functions with `createEnhancer` from Enhancement Function, that can enhance both individual Operation Function or Operation Function Bundle.
+Enhancers are higher-order functions created by `createEnhancer` based on Enhancement Function, that can enhance both individual Operation/Action Function and Operation/Action Function Bundle.
+
+> the original function names would be sustained if enhancer applies to individual function
+> when applies to function bundle, the names of orignal functions in the bundle would be aligned to the method names (in case you need to access the name in the enhancement function), and the names of enhanced functions in the output bundle would use method names as well
