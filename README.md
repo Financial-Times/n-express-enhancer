@@ -19,24 +19,25 @@ common components you need to build an express middleware enhancer
 - [quickstart](#quickstart)
 - [install](#install)
 - [usage](#usage)
-   * [operation function](#operation-function)
+  * [develop an enhancer](#develop-an-enhancer)
+- [terminology](#terminology)
+  * [operation function](#operation-function)
+  * [operation function bundle](#operation-function-bundle)
+  * [enhancement function](#enhancement-function)
+  * [enhancer](#enhancer)
 
 <br>
 
 ## quickstart
 ```js
-import { toMiddleware, enhancedRender } from '@financial-times/n-express-enhancer';
-```
+import { toMiddleware } from '@financial-times/n-express-enhancer';
 
-```js
 // convert an operation function to an express middleware
 const operationFunction = (meta, req, res) => {};
 
 export default toMiddleware(operationFunction);
-```
 
-```js
-// convert a set of operation functions wrapped in an object
+// convert an operation function bundle (wrapped in an Object)
 export default toMiddleware({
   operationFunctionA,
   operationFunctionB,
@@ -48,6 +49,8 @@ export default toMiddleware({
 
 ```js
 // use enhancedRender before any converted middleware if you need to use `res.render`
+import { enhancedRender } from '@financial-times/n-express-enhancer';
+
 app.use('/route', enhancedRender, convertedMiddleware);
 ```
 
@@ -58,7 +61,38 @@ npm install @financial-times/n-express-enhancer
 
 ## usage
 
+### develop an enhancer
+```js
+// use `createEnhancer` to create an enhancer that could 
+// enhance both individual function or function bundle
+import { createEnhancer } from '@financial-times/n-express-enhancer';
+
+// Enhancement Function
+const enhancerName = operationFunction => (/* output function signature */) => {
+  //... do the enhancement or side effect you want
+  //... remember to invoke the orignal operationFunction
+  operationFunction();
+};
+
+export default createEnhancer(enhancerName);
+```
+
+> more details on [enhancement function](#enhancement-function)
+
+> Error would be thrown if input to enhancer created is not a function or a function bundle
+
+> check how `toMiddleware` is implemented for [example](/src/convertor.js)
+
+
+## terminology
+
 ### operation function
+
+Operation Function generally refers to a function with such signature `(meta, req, res) => {}` that can be enhanced by an Enhancer or converted to a Middleware. 
+
+It has a similar signature to express middleware, while `next` is not needed, as it would be taken care of by `toMiddleware` convertor and `meta` is added to allow pass metadata conviniently to functions inside the scope, without mutating `req`, `res` and make the signature distinctive.
+
+Based on the error handling behaviour, there're two types of Operation Function as below.
 
 #### `resless` operation function
 
@@ -92,3 +126,32 @@ const operation = async (meta, req, res) => {
   return data;
 };
 ```
+
+### operation function bundle
+
+Operation Function Bundle is an Object that wraps Operation Funcitons as methods, methods of which can be enhanced by enhancers when input the bundle. No values other than functions are allowed.
+
+```js
+const bundle = {
+  methodA: (meta, req, res) => {},
+  methodB: (meta, req, res) => {},
+};
+```
+
+### enhancement function
+
+Enhancement Function generally refers to curry functions that take an Operation Function as the input, and add extra logics (such as logging, params update) to invoke the Operation Function, which can be augmented by `createEnhancer` to be able to enhance both individual Operation Function or Operation Function Bundle. 
+
+> the original function names would be sustained or method names would be used as function names
+
+```js
+const enhancementFunction = operationFunction => (/* output function signature */) => {
+  //... do the enhancement or side effect you want
+  //... the orignal operationFunction can be invoked as it is or with updated params
+  operationFunction();
+};
+```
+
+### enhancer
+
+Enhancers are higher-order functions with `createEnhancer` from Enhancement Function, that can enhance both individual Operation Function or Operation Function Bundle.
