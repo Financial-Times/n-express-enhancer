@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`createEnhancer can create enhancer when input function bundle update function names in the original bundle methods, so that they can be consistent in enhancement function 1`] = `
+Array [
+  Array [
+    "methodA",
+  ],
+]
+`;
+
+exports[`createEnhancer can create enhancer when input function bundle update function names in the original bundle methods, so that they can be consistent in enhancement function 2`] = `
+Array [
+  Array [
+    "methodA",
+  ],
+  Array [
+    "methodB",
+  ],
+]
+`;
+
 exports[`createEnhancer can create enhancer when input is invalid throws error 1`] = `"input of enhancer needs to be an operation function or a set of operation functions wrapped in an object"`;
 
 exports[`createEnhancer can create enhancer when input is invalid throws error 2`] = `"all methods in an object of operation function bundle need to be valid operation function"`;

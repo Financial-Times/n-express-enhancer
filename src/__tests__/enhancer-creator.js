@@ -36,6 +36,23 @@ describe('createEnhancer can create enhancer', () => {
 			expect(enhanced.methodB.name).toBe('methodB');
 		});
 
+		it('update function names in the original bundle methods, so that they can be consistent in enhancement function', () => {
+			const enhancementSideEffect = jest.fn();
+			const functionBundle = {
+				methodA: jest.fn(),
+				methodB: jest.fn(),
+			};
+			const enhancer = createEnhancer(inputFunction => () => {
+				enhancementSideEffect(inputFunction.name);
+				return inputFunction();
+			});
+			const enhanced = enhancer(functionBundle);
+			enhanced.methodA();
+			expect(enhancementSideEffect.mock.calls).toMatchSnapshot();
+			enhanced.methodB();
+			expect(enhancementSideEffect.mock.calls).toMatchSnapshot();
+		});
+
 		it('output function bundle of functions invoking enhancement function and origial functions', () => {
 			const enhancementSideEffect = jest.fn();
 			const methodA = jest.fn();

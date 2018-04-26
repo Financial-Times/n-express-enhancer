@@ -10,11 +10,13 @@ const createFunctionEnhancer = enhancementFunction => inputFunction => {
 const createBundleEnhancer = enhancementFunction => inputBundle => {
 	const enhancedBundle = {};
 	Object.keys(inputBundle).forEach(methodName => {
-		const enhancedMethod = enhancementFunction(inputBundle[methodName]);
-		Object.defineProperty(enhancedMethod, 'name', {
+		const method = inputBundle[methodName];
+		Object.defineProperty(method, 'name', {
 			value: methodName,
 			configurable: true,
 		});
+		const enhancer = createFunctionEnhancer(enhancementFunction);
+		const enhancedMethod = enhancer(method);
 		enhancedBundle[methodName] = enhancedMethod;
 	});
 	return enhancedBundle;
