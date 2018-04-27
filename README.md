@@ -12,7 +12,7 @@
 [![Dependencies](https://david-dm.org/Financial-Times/n-express-enhancer.svg)](https://david-dm.org/Financial-Times/n-express-enhancer)
 [![devDependencies](https://david-dm.org/Financial-Times/n-express-enhancer/dev-status.svg)](https://david-dm.org/Financial-Times/n-express-enhancer?type=dev)
 
-things you need to build and use an express middleware enhancer
+make it handy to build and use an express middleware enhancer
 
 <br>
 
