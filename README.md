@@ -63,7 +63,7 @@ app.use('/route', enhancedRender, convertedMiddleware);
 
 ## install
 ```shell
-yarn add @financial-times/n-express-enhancer
+npm install @financial-times/n-express-enhancer
 ```
 
 ## usage
