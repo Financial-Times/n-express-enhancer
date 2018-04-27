@@ -36,8 +36,6 @@ make it handy to build and use an express middleware enhancer
 
 `n-express-enhancer` can help to streamline building an middleware enhancer for express. It proposed a pattern to write operation function that can be enhanced, and finally converted to middleware with `toMiddleware` convertor.
 
-> more details on [operation function](#operation-function)
-
 ```js
 import { toMiddleware } from '@financial-times/n-express-enhancer';
 
@@ -51,6 +49,7 @@ export default toMiddleware(enhancer({
   operationFunctionB,
 }));
 ```
+> more details on [operation function](#operation-function) and the [terminology](#terminology)
 
 > Error would be thrown if input to toMiddleware is not a function or a function bundle
 
