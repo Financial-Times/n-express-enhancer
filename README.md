@@ -85,9 +85,9 @@ export default compose(toMiddleware, enhancerA, enhancerB)({
 ```
 
 ### develop an enhancer
+
+`createEnhancer` makes it handy to create an enhancer that could enhance both individual function or function bundle (either operation or action), and ensure original function properties such as name would be retained.
 ```js
-// use `createEnhancer` to create an enhancer that could 
-// enhance both individual function or function bundle (either operation or action)
 import { createEnhancer } from '@financial-times/n-express-enhancer';
 
 // Enhancement Function
