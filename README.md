@@ -130,7 +130,8 @@ const operation = async (meta, req) => {
   } catch(e) {
     // specify error handling for this particular step, recommending use `n-error`
     // ...
-    // resless operation function must throw the enriched error object, and it would be forwarded to the errorHandler middleware
+    // resless operation function must throw the enriched error object, 
+    // and it would be forwarded to the errorHandler middleware
     throw e;
   }
   return data;
