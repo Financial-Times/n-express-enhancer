@@ -12,66 +12,89 @@
 [![Dependencies](https://david-dm.org/Financial-Times/n-express-enhancer.svg)](https://david-dm.org/Financial-Times/n-express-enhancer)
 [![devDependencies](https://david-dm.org/Financial-Times/n-express-enhancer/dev-status.svg)](https://david-dm.org/Financial-Times/n-express-enhancer?type=dev)
 
-common components you need to build an express middleware enhancer
+make it handy to build and use express middleware enhancers
 
 <br>
 
-- [quickstart](#quickstart)
-- [install](#install)
-- [developer](#developer)
+- [Quickstart](#quickstart)
+- [Install](#install)
+- [Usage](#usage)
+  * [chain a series of enhancers](#chain-a-series-of-enhancers)
   * [develop an enhancer](#develop-an-enhancer)
-- [terminology](#terminology)
+- [Available Enhancers](#available-enhancers)
+- [Terminology](#terminology)
   * [operation function](#operation-function)
   * [operation function bundle](#operation-function-bundle)
+  * [action function](#action-function)
+  * [action function bundle](#action-function-bundle)
   * [enhancement function](#enhancement-function)
   * [enhancer](#enhancer)
+  * [convertor](#convertor)
+- [Licence](#licence)
 
 <br>
 
-## quickstart
+## Quickstart
+
+enhance operation functions and convert them to middlewares with `compose(toMiddleware, enhancerA, enhancerB)()`
+
 ```js
-import { toMiddleware } from '@financial-times/n-express-enhancer';
+import { toMiddleware, compose } from '@financial-times/n-express-enhancer';
 
-// convert an operation function to an express middleware
+/* -- convert an enhanced operation function  -- */
 const operationFunction = (meta, req, res) => {};
+export default compose(toMiddleware, enhancerA, enhancerB)(operationFunction);
 
-export default toMiddleware(operationFunction);
-
-// convert an operation function bundle (wrapped in an Object)
-export default toMiddleware({
+/* -- convert an operation function bundle  -- */
+export default compose(toMiddleware, enhancerA, enhancerB)({
   operationFunctionA,
   operationFunctionB,
 });
 ```
-> more details on [operation function](#operation-function)
 
-> Error would be thrown if input to toMiddleware is not a function or a function bundle
+> more details on [operation function](#operation-function) and the [terminology](#terminology)
+
+If you need to use `res.render` in the operation function, please use enhancedRender before any converted middleware. This is due to restriction from express@4 and likely wouldn't be needed when updated to express@5.
 
 ```js
-// use enhancedRender before any converted middleware if you need to use `res.render`
 import { enhancedRender } from '@financial-times/n-express-enhancer';
 
-app.use('/route', enhancedRender, convertedMiddleware);
+app.use('/route', enhancedRender, enhancedMiddleware);
 ```
 
-## install
+## Install
 ```shell
 npm install @financial-times/n-express-enhancer
 ```
 
-## developer
+## Usage
+
+### chain a series of enhancers
+```js
+import { toMiddleware, compose } from '@financial-times/n-express-enhancer';
+
+/* -- convert an enhanced operation function  -- */
+const operationFunction = (meta, req, res) => {};
+export default compose(toMiddleware, enhancerA, enhancerB)(operationFunction);
+
+/* -- convert an operation function bundle  -- */
+export default compose(toMiddleware, enhancerA, enhancerB)({
+  operationFunctionA,
+  operationFunctionB,
+});
+```
 
 ### develop an enhancer
+
+`createEnhancer` makes it handy to create an enhancer that could enhance both individual function or function bundle (either operation or action), and ensure original function properties such as name would be retained.
 ```js
-// use `createEnhancer` to create an enhancer that could 
-// enhance both individual function or function bundle
 import { createEnhancer } from '@financial-times/n-express-enhancer';
 
 // Enhancement Function
-const enhancerName = operationFunction => (/* output function signature */) => {
+const enhancerName = inputFunction => (/* output function signature */) => {
   //... do the enhancement or side effect you want
-  //... remember to invoke the orignal operationFunction
-  operationFunction();
+  //... remember to invoke the orignal inputFunction
+  inputFunction();
 };
 
 export default createEnhancer(enhancerName);
@@ -79,12 +102,15 @@ export default createEnhancer(enhancerName);
 
 > more details on [enhancement function](#enhancement-function)
 
-> Error would be thrown if input to enhancer created is not a function or a function bundle
-
 > check how `toMiddleware` is implemented for [example](/src/convertor.js)
 
+## Available Enhancers
 
-## terminology
+* [n-auto-logger](https://github.com/financial-Times/n-auto-logger) - auto log every operation and action in express
+* [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics) - complementary metrics to refelect operations and actions
+
+
+## Terminology
 
 ### operation function
 
@@ -138,11 +164,19 @@ const bundle = {
 };
 ```
 
+### action function
+
+Operation Function generally refers to a function with such signature `(params, meta) => {}` that is friendly for logger, validator, etc. 
+
+### action function bundle
+
+Similarly, Action Function Bundle is an Object that wraps Action Funcitons as methods, methods of which can be enhanced by enhancers when input the bundle. No values other than functions are allowed.
+
 ### enhancement function
 
-Enhancement Function generally refers to curry functions that take an Operation Function as the input, and add extra logics (such as logging, params update) to invoke the Operation Function, which can be augmented by `createEnhancer` to be able to enhance both individual Operation Function or Operation Function Bundle. 
+Enhancement Function generally refers to curry functions that take an Operation Function/Action Function as the input, and add extra logics (such as logging, params update) and invoke the original input function. Enhancement Function itself can only enhance individual input function. 
 
-> the original function names would be sustained or method names would be used as function names
+It can be augmented by `createEnhancer` to be able to enhance both individual function and function bundle. 
 
 ```js
 const enhancementFunction = operationFunction => (/* output function signature */) => {
@@ -154,4 +188,17 @@ const enhancementFunction = operationFunction => (/* output function signature *
 
 ### enhancer
 
-Enhancers are higher-order functions with `createEnhancer` from Enhancement Function, that can enhance both individual Operation Function or Operation Function Bundle.
+Enhancers are higher-order functions created by `createEnhancer` based on Enhancement Function, that can enhance both individual Operation/Action Function and Operation/Action Function Bundle.
+
+> the original function names would be sustained if enhancer applies to individual function
+
+> when applies to function bundle, the names of orignal functions in the bundle would be aligned to the method names (in case you need to access the name in the enhancement function), and the names of enhanced functions in the output bundle would use method names as well
+
+### convertor
+
+Convertors are curry functions taking an input function and convert it to a function with a different signature, e.g. `toMiddleware` takes an operation function `(meta, req, res) => {}` and convert it to a middleware `(req, res, next) => {}`.
+
+Enhancers output functions with the same signature as the input, so that they can be chained.
+
+## Licence
+[MIT](/LICENSE)
