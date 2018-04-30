@@ -40,8 +40,7 @@ make it handy to build and use express middleware enhancers
 enhance operation functions and convert them to middlewares with `compose(toMiddleware, enhancerA, enhancerB)()`
 
 ```js
-import compose from 'compose-function'; // recommended
-import { toMiddleware } from '@financial-times/n-express-enhancer';
+import { toMiddleware, compose } from '@financial-times/n-express-enhancer';
 
 /* -- convert an enhanced operation function  -- */
 const operationFunction = (meta, req, res) => {};
@@ -73,8 +72,7 @@ npm install @financial-times/n-express-enhancer
 
 ### chain a series of enhancers
 ```js
-import compose from 'compose-function'; // recommended
-import { toMiddleware } from '@financial-times/n-express-enhancer';
+import { toMiddleware, compose } from '@financial-times/n-express-enhancer';
 
 /* -- convert an enhanced operation function  -- */
 const operationFunction = (meta, req, res) => {};
