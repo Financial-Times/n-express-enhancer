@@ -19,7 +19,7 @@ make it handy to build and use an express middleware enhancer
 - [quickstart](#quickstart)
 - [install](#install)
 - [usage](#usage)
-  * [use a series of enhancers](#use-a-series-of-enhancers)
+  * [chain a series of enhancers](#chain-a-series-of-enhancers)
   * [develop an enhancer](#develop-an-enhancer)
   * [available enhancers](#available-enhancers)
 - [terminology](#terminology)
@@ -68,7 +68,7 @@ npm install @financial-times/n-express-enhancer
 
 ## usage
 
-### use a series of enhancers
+### chain a series of enhancers
 ```js
 import compose from 'compose-function'; // recommended
 import { toMiddleware } from '@financial-times/n-express-enhancer';
