@@ -35,7 +35,7 @@ make it handy to build and use express middleware enhancers
 
 <br>
 
-## quickstart
+## Quickstart
 
 enhance operation functions and convert them to middlewares with `compose(toMiddleware, enhancerA, enhancerB)()`
 
@@ -64,12 +64,12 @@ import { enhancedRender } from '@financial-times/n-express-enhancer';
 app.use('/route', enhancedRender, enhancedMiddleware);
 ```
 
-## install
+## Install
 ```shell
 npm install @financial-times/n-express-enhancer
 ```
 
-## usage
+## Usage
 
 ### chain a series of enhancers
 ```js
@@ -107,13 +107,13 @@ export default createEnhancer(enhancerName);
 
 > check how `toMiddleware` is implemented for [example](/src/convertor.js)
 
-## available enhancers
+## Available Enhancers
 
 * [n-auto-logger](https://github.com/financial-Times/n-auto-logger) - auto log every operation and action in express
 * [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics) - complementary metrics to refelect operations and actions
 
 
-## terminology
+## Terminology
 
 ### operation function
 
@@ -202,3 +202,6 @@ Enhancers are higher-order functions created by `createEnhancer` based on Enhanc
 Convertors are curry functions taking an input function and convert it to a function with a different signature, e.g. `toMiddleware` takes an operation function `(meta, req, res) => {}` and convert it to a middleware `(req, res, next) => {}`.
 
 Enhancers output functions with the same signature as the input, so that they can be chained.
+
+## Licence
+[MIT](/LICENSE)
