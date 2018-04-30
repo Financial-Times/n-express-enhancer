@@ -12,7 +12,7 @@
 [![Dependencies](https://david-dm.org/Financial-Times/n-express-enhancer.svg)](https://david-dm.org/Financial-Times/n-express-enhancer)
 [![devDependencies](https://david-dm.org/Financial-Times/n-express-enhancer/dev-status.svg)](https://david-dm.org/Financial-Times/n-express-enhancer?type=dev)
 
-make it handy to build and use an express middleware enhancer
+make it handy to build and use express middleware enhancers
 
 <br>
 
@@ -21,7 +21,9 @@ make it handy to build and use an express middleware enhancer
 - [usage](#usage)
   * [chain a series of enhancers](#chain-a-series-of-enhancers)
   * [develop an enhancer](#develop-an-enhancer)
-  * [available enhancers](#available-enhancers)
+- [available enhancers](#available-enhancers)
+  * [n-auto-logger](https://github.com/financial-Times/n-auto-logger)
+  * [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics)
 - [terminology](#terminology)
   * [operation function](#operation-function)
   * [operation function bundle](#operation-function-bundle)
@@ -29,36 +31,37 @@ make it handy to build and use an express middleware enhancer
   * [action function bundle](#action-function-bundle)
   * [enhancement function](#enhancement-function)
   * [enhancer](#enhancer)
+  * [convertor](#convertor)
 
 <br>
 
 ## quickstart
 
-`n-express-enhancer` can help to streamline building an middleware enhancer for express. It proposed a pattern to write operation function that can be enhanced, and finally converted to middleware with `toMiddleware` convertor.
+enhance operation functions and convert them to middlewares with `compose(toMiddleware, enhancerA, enhancerB)()`
 
 ```js
+import compose from 'compose-function'; // recommended
 import { toMiddleware } from '@financial-times/n-express-enhancer';
 
 /* -- convert an enhanced operation function  -- */
 const operationFunction = (meta, req, res) => {};
-export default toMiddleware(enhancer(operationFunction));
+export default compose(toMiddleware, enhancerA, enhancerB)(operationFunction);
 
 /* -- convert an operation function bundle  -- */
-export default toMiddleware(enhancer({
+export default compose(toMiddleware, enhancerA, enhancerB)({
   operationFunctionA,
   operationFunctionB,
-}));
+});
 ```
-> more details on [operation function](#operation-function) and the [terminology](#terminology)
 
-> Error would be thrown if input to toMiddleware is not a function or a function bundle
+> more details on [operation function](#operation-function) and the [terminology](#terminology)
 
 If you need to use `res.render` in the operation function, please use enhancedRender before any converted middleware. This is due to restriction from express@4 and likely wouldn't be needed when updated to express@5.
 
 ```js
 import { enhancedRender } from '@financial-times/n-express-enhancer';
 
-app.use('/route', enhancedRender, convertedMiddleware);
+app.use('/route', enhancedRender, enhancedMiddleware);
 ```
 
 ## install
@@ -102,11 +105,9 @@ export default createEnhancer(enhancerName);
 
 > more details on [enhancement function](#enhancement-function)
 
-> Error would be thrown if input to enhancer created is not a function or a function bundle
-
 > check how `toMiddleware` is implemented for [example](/src/convertor.js)
 
-### available enhancers
+## available enhancers
 
 * [n-auto-logger](https://github.com/financial-Times/n-auto-logger) - auto log every operation and action in express
 * [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics) - complementary metrics to refelect operations and actions
@@ -195,3 +196,9 @@ Enhancers are higher-order functions created by `createEnhancer` based on Enhanc
 > the original function names would be sustained if enhancer applies to individual function
 
 > when applies to function bundle, the names of orignal functions in the bundle would be aligned to the method names (in case you need to access the name in the enhancement function), and the names of enhanced functions in the output bundle would use method names as well
+
+### convertor
+
+Convertors are curry functions taking an input function and convert it to a function with a different signature, e.g. `toMiddleware` takes an operation function `(meta, req, res) => {}` and convert it to a middleware `(req, res, next) => {}`.
+
+Enhancers output functions with the same signature as the input, so that they can be chained.
