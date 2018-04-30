@@ -19,6 +19,7 @@ make it handy to build and use express middleware enhancers
 - [Quickstart](#quickstart)
 - [Install](#install)
 - [Usage](#usage)
+  * [use res.render](#use-resrender)
   * [chain a series of enhancers](#chain-a-series-of-enhancers)
   * [develop an enhancer](#develop-an-enhancer)
 - [Available Enhancers](#available-enhancers)
@@ -54,6 +55,14 @@ export default compose(toMiddleware, enhancerA, enhancerB)({
 
 > more details on [operation function](#operation-function) and the [terminology](#terminology)
 
+## Install
+```shell
+npm install @financial-times/n-express-enhancer
+```
+
+## Usage
+
+### use res.render
 If you need to use `res.render` in the operation function, please use enhancedRender before any converted middleware. This is due to restriction from express@4 and likely wouldn't be needed when updated to express@5.
 
 ```js
@@ -61,13 +70,6 @@ import { enhancedRender } from '@financial-times/n-express-enhancer';
 
 app.use('/route', enhancedRender, enhancedMiddleware);
 ```
-
-## Install
-```shell
-npm install @financial-times/n-express-enhancer
-```
-
-## Usage
 
 ### chain a series of enhancers
 ```js
