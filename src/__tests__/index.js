@@ -1,6 +1,7 @@
 import {
 	compose,
 	toMiddleware,
+	addMeta,
 	enhancedRender,
 	createEnhancer,
 	isPromise,
@@ -13,6 +14,10 @@ describe('n-express-enhancer exports', () => {
 
 	it('toMiddleware', () => {
 		expect(typeof toMiddleware).toBe('function');
+	});
+
+	it('addMeta', () => {
+		expect(typeof addMeta).toBe('function');
 	});
 
 	it('enhancedRender', () => {
