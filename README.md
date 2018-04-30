@@ -55,6 +55,8 @@ export default compose(toMiddleware, enhancerA, enhancerB)({
 
 > more details on [operation function](#operation-function) and the [terminology](#terminology)
 
+> check [use res.render](#use-resrender)
+
 ## Install
 ```shell
 npm install @financial-times/n-express-enhancer
