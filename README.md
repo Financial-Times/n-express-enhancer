@@ -16,15 +16,13 @@ make it handy to build and use express middleware enhancers
 
 <br>
 
-- [quickstart](#quickstart)
-- [install](#install)
-- [usage](#usage)
+- [Quickstart](#quickstart)
+- [Install](#install)
+- [Usage](#usage)
   * [chain a series of enhancers](#chain-a-series-of-enhancers)
   * [develop an enhancer](#develop-an-enhancer)
-- [available enhancers](#available-enhancers)
-  * [n-auto-logger](https://github.com/financial-Times/n-auto-logger)
-  * [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics)
-- [terminology](#terminology)
+- [Available Enhancers](#available-enhancers)
+- [Terminology](#terminology)
   * [operation function](#operation-function)
   * [operation function bundle](#operation-function-bundle)
   * [action function](#action-function)
@@ -32,6 +30,7 @@ make it handy to build and use express middleware enhancers
   * [enhancement function](#enhancement-function)
   * [enhancer](#enhancer)
   * [convertor](#convertor)
+- [Licence](#licence)
 
 <br>
 
