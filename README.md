@@ -1,5 +1,7 @@
 # n-express-enhancer 
 
+toolsets to create function enhancer in operation/action model
+
 [![npm version](https://badge.fury.io/js/%40financial-times%2Fn-express-enhancer.svg)](https://badge.fury.io/js/%40financial-times%2Fn-express-enhancer)
 ![npm download](https://img.shields.io/npm/dm/@financial-times/n-express-enhancer.svg)
 ![node version](https://img.shields.io/node/v/@financial-times/n-express-enhancer.svg)
@@ -11,8 +13,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Financial-Times/n-express-enhancer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Financial-Times/n-express-enhancer/?branch=master)
 [![Dependencies](https://david-dm.org/Financial-Times/n-express-enhancer.svg)](https://david-dm.org/Financial-Times/n-express-enhancer)
 [![devDependencies](https://david-dm.org/Financial-Times/n-express-enhancer/dev-status.svg)](https://david-dm.org/Financial-Times/n-express-enhancer?type=dev)
-
-make it handy to build and use express middleware enhancers
 
 <br>
 
