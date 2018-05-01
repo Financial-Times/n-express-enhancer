@@ -289,31 +289,3 @@ describe('toMiddleware input operation function', () => {
 		});
 	});
 });
-
-describe('toMiddleware input operaiton funciton bundle', () => {
-	afterEach(() => {
-		jest.resetAllMocks();
-	});
-
-	it('decorate each method correctly', async () => {
-		const operationFunctionA = (meta, req, res) => {
-			res.status(200).send(meta);
-		};
-		const operationFunctionB = (meta, req, res) => {
-			res.status(200).send(meta);
-		};
-		const enhanced = toMiddleware({
-			operationFunctionA,
-			operationFunctionB,
-		});
-		expect(enhanced.operationFunctionA.name).toBe('operationFunctionA');
-		expect(enhanced.operationFunctionB.name).toBe('operationFunctionB');
-		const app = express();
-		app.use('/a', enhanced.operationFunctionA);
-		app.use('/b', enhanced.operationFunctionB);
-		const resA = await request(app).get('/a');
-		expect(resA.statusCode).toBe(200);
-		const resB = await request(app).get('/b');
-		expect(resB.statusCode).toBe(200);
-	});
-});
