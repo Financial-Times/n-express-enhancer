@@ -1,3 +1,5 @@
+import compose from 'compose-function';
+
 import createEnhancer from '../enhancer-creator';
 
 describe('createEnhancer can create enhancer', () => {
@@ -72,6 +74,219 @@ describe('createEnhancer can create enhancer', () => {
 			enhanced.methodB();
 			expect(methodB.mock.calls).toHaveLength(1);
 			expect(enhancementSideEffect.mock.calls).toHaveLength(2);
+		});
+	});
+
+	describe('that is chainable with enhancers of the same target function signature', () => {
+		describe('invokes enhancement function in correct order so that data can be passed in', () => {
+			it('non-async enhancement functions', () => {
+				const callOrderFunction = jest.fn();
+				const dataStreamFunction = jest.fn();
+				const targetFunction = meta => {
+					callOrderFunction('targetFunction');
+					dataStreamFunction(meta);
+					return meta;
+				};
+				const enhancerA = createEnhancer(inputFunction => meta => {
+					callOrderFunction('enhancerA');
+					dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerA: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const enhancerB = createEnhancer(inputFunction => meta => {
+					callOrderFunction('enhancerB');
+					dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerB: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const initialMeta = { initial: 'data added' };
+				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const result = enhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(result).toMatchSnapshot();
+
+				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseResult = reverseEnhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(reverseResult).toMatchSnapshot();
+			});
+
+			it('async enhancement functions', async () => {
+				const callOrderFunction = jest.fn();
+				const dataStreamFunction = jest.fn();
+				const targetFunction = meta => {
+					callOrderFunction('targetFunction');
+					dataStreamFunction(meta);
+					return meta;
+				};
+				const enhancerA = createEnhancer(inputFunction => async meta => {
+					callOrderFunction('enhancerA');
+					await dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerA: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const enhancerB = createEnhancer(inputFunction => async meta => {
+					callOrderFunction('enhancerB');
+					await dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerB: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const initialMeta = { initial: 'data added' };
+				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const result = await enhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(result).toMatchSnapshot();
+
+				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseResult = await reverseEnhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(reverseResult).toMatchSnapshot();
+			});
+
+			it('mixed non-async and async enhancement functions', async () => {
+				const callOrderFunction = jest.fn();
+				const dataStreamFunction = jest.fn();
+				const targetFunction = meta => {
+					callOrderFunction('targetFunction');
+					dataStreamFunction(meta);
+					return meta;
+				};
+				const enhancerA = createEnhancer(inputFunction => async meta => {
+					callOrderFunction('enhancerA');
+					await dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerA: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const enhancerB = createEnhancer(inputFunction => meta => {
+					callOrderFunction('enhancerB');
+					dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerB: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const initialMeta = { initial: 'data added' };
+				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const result = await enhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(result).toMatchSnapshot();
+
+				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseResult = await reverseEnhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(reverseResult).toMatchSnapshot();
+			});
+
+			// TODO: further explore this implementation and its tests
+			describe('promises based sideEffect functions so that target functions not blocked', () => {
+				it('enhanced can be invoked without await if target function not async', () => {
+					const callOrderFunction = jest.fn();
+					const dataStreamFunction = jest.fn();
+					const targetFunction = meta => {
+						callOrderFunction('targetFunction');
+						dataStreamFunction(meta);
+						return meta;
+					};
+					const enhancerA = createEnhancer(inputFunction => meta => {
+						callOrderFunction('enhancerA');
+						Promise.resolve(() => dataStreamFunction(meta));
+						const updatedMeta = { ...meta, enhancerA: 'data added' };
+						return inputFunction(updatedMeta);
+					});
+					const enhancerB = createEnhancer(inputFunction => meta => {
+						callOrderFunction('enhancerB');
+						dataStreamFunction(meta);
+						const updatedMeta = { ...meta, enhancerB: 'data added' };
+						return inputFunction(updatedMeta);
+					});
+					const initialMeta = { initial: 'data added' };
+					const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+					const result = enhanced(initialMeta);
+					expect(callOrderFunction.mock.calls).toMatchSnapshot();
+					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+					expect(result).toMatchSnapshot();
+
+					const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+					const reverseResult = reverseEnhanced(initialMeta);
+					expect(callOrderFunction.mock.calls).toMatchSnapshot();
+					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+					expect(reverseResult).toMatchSnapshot();
+				});
+
+				it('enhanced can be invoked with await if target function async', () => {
+					const callOrderFunction = jest.fn();
+					const dataStreamFunction = jest.fn();
+					const targetFunction = meta => {
+						callOrderFunction('targetFunction');
+						dataStreamFunction(meta);
+						return meta;
+					};
+					const enhancerA = createEnhancer(inputFunction => meta => {
+						callOrderFunction('enhancerA');
+						Promise.resolve(() => dataStreamFunction(meta));
+						const updatedMeta = { ...meta, enhancerA: 'data added' };
+						return inputFunction(updatedMeta);
+					});
+					const enhancerB = createEnhancer(inputFunction => meta => {
+						callOrderFunction('enhancerB');
+						dataStreamFunction(meta);
+						const updatedMeta = { ...meta, enhancerB: 'data added' };
+						return inputFunction(updatedMeta);
+					});
+					const initialMeta = { initial: 'data added' };
+					const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+					const result = enhanced(initialMeta);
+					expect(callOrderFunction.mock.calls).toMatchSnapshot();
+					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+					expect(result).toMatchSnapshot();
+
+					const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+					const reverseResult = reverseEnhanced(initialMeta);
+					expect(callOrderFunction.mock.calls).toMatchSnapshot();
+					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+					expect(reverseResult).toMatchSnapshot();
+				});
+			});
+
+			// enhancer doesn't need to be async
+			// as long as await is used when invoke the enhanced
+			it('async target function', async () => {
+				const callOrderFunction = jest.fn();
+				const dataStreamFunction = jest.fn();
+				const targetFunction = async meta => {
+					callOrderFunction('targetFunction');
+					dataStreamFunction(meta);
+					return meta;
+				};
+				const enhancerA = createEnhancer(inputFunction => async meta => {
+					callOrderFunction('enhancerA');
+					await dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerA: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const enhancerB = createEnhancer(inputFunction => meta => {
+					callOrderFunction('enhancerB');
+					dataStreamFunction(meta);
+					const updatedMeta = { ...meta, enhancerB: 'data added' };
+					return inputFunction(updatedMeta);
+				});
+				const initialMeta = { initial: 'data added' };
+				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const result = await enhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(result).toMatchSnapshot();
+
+				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseResult = await reverseEnhanced(initialMeta);
+				expect(callOrderFunction.mock.calls).toMatchSnapshot();
+				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
+				expect(reverseResult).toMatchSnapshot();
+			});
 		});
 	});
 
