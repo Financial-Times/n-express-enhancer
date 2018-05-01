@@ -4,12 +4,17 @@ import createEnhancer from '../enhancer-creator';
 
 describe('createEnhancer can create enhancer', () => {
 	describe('when input function', () => {
-		it('output enhanced function with original name', () => {
+		it('output enhanced function with original name amd configurable', () => {
 			const orignal = () => {};
 			const enhancement = input => () => input();
 			const enhancer = createEnhancer(enhancement);
 			const enhanced = enhancer(orignal);
 			expect(enhanced.name).toBe('orignal');
+			Object.defineProperty(enhanced, 'name', {
+				value: 'test',
+				configurable: true,
+			});
+			expect(enhanced.name).toBe('test');
 		});
 
 		it('output enhanced function invoking enhancement function and orignal function', () => {
