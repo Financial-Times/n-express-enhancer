@@ -2,6 +2,7 @@ import {
 	compose,
 	toMiddleware,
 	addMeta,
+	tagService,
 	enhancedRender,
 	createEnhancer,
 	isPromise,
@@ -18,6 +19,10 @@ describe('n-express-enhancer exports', () => {
 
 	it('addMeta', () => {
 		expect(typeof addMeta).toBe('function');
+	});
+
+	it('tagService', () => {
+		expect(typeof tagService).toBe('function');
 	});
 
 	it('enhancedRender', () => {
