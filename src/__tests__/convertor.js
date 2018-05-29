@@ -237,9 +237,10 @@ describe('toMiddleware input operation function', () => {
 				const operationFunction = async (meta, req, res) => {
 					await res.send(meta);
 				};
-				const middleware = compose(toMiddleware, middlewareEnhancer)(
-					operationFunction,
-				);
+				const middleware = compose(
+					toMiddleware,
+					middlewareEnhancer,
+				)(operationFunction);
 				const app = express();
 				app.use('/', middleware);
 				const response = await request(app).get('/');
@@ -251,9 +252,10 @@ describe('toMiddleware input operation function', () => {
 				const operationFunction = (meta, req, res) => {
 					res.send(meta);
 				};
-				const middleware = compose(toMiddleware, middlewareEnhancer)(
-					operationFunction,
-				);
+				const middleware = compose(
+					toMiddleware,
+					middlewareEnhancer,
+				)(operationFunction);
 				const app = express();
 				app.use('/', middleware);
 				const response = await request(app).get('/');
@@ -267,9 +269,10 @@ describe('toMiddleware input operation function', () => {
 				const operationFunction = async () => {
 					throw await commonErrorInstance;
 				};
-				const middleware = compose(toMiddleware, middlewareEnhancer)(
-					operationFunction,
-				);
+				const middleware = compose(
+					toMiddleware,
+					middlewareEnhancer,
+				)(operationFunction);
 				const app = express();
 				app.use('/', middleware, commonErrorHandler);
 				const response = await request(app).get('/');
@@ -278,9 +281,10 @@ describe('toMiddleware input operation function', () => {
 
 			it('non-async function', async () => {
 				const operationFunction = errorOperationFunction;
-				const middleware = compose(toMiddleware, middlewareEnhancer)(
-					operationFunction,
-				);
+				const middleware = compose(
+					toMiddleware,
+					middlewareEnhancer,
+				)(operationFunction);
 				const app = express();
 				app.use('/', middleware, commonErrorHandler);
 				const response = await request(app).get('/');

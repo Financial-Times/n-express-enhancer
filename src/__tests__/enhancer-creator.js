@@ -105,13 +105,19 @@ describe('createEnhancer can create enhancer', () => {
 					return inputFunction(updatedMeta);
 				});
 				const initialMeta = { initial: 'data added' };
-				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const enhanced = compose(
+					enhancerA,
+					enhancerB,
+				)(targetFunction);
 				const result = enhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
 				expect(result).toMatchSnapshot();
 
-				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseEnhanced = compose(
+					enhancerB,
+					enhancerA,
+				)(targetFunction);
 				const reverseResult = reverseEnhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
@@ -139,13 +145,19 @@ describe('createEnhancer can create enhancer', () => {
 					return inputFunction(updatedMeta);
 				});
 				const initialMeta = { initial: 'data added' };
-				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const enhanced = compose(
+					enhancerA,
+					enhancerB,
+				)(targetFunction);
 				const result = await enhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
 				expect(result).toMatchSnapshot();
 
-				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseEnhanced = compose(
+					enhancerB,
+					enhancerA,
+				)(targetFunction);
 				const reverseResult = await reverseEnhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
@@ -173,13 +185,19 @@ describe('createEnhancer can create enhancer', () => {
 					return inputFunction(updatedMeta);
 				});
 				const initialMeta = { initial: 'data added' };
-				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const enhanced = compose(
+					enhancerA,
+					enhancerB,
+				)(targetFunction);
 				const result = await enhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
 				expect(result).toMatchSnapshot();
 
-				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseEnhanced = compose(
+					enhancerB,
+					enhancerA,
+				)(targetFunction);
 				const reverseResult = await reverseEnhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
@@ -209,13 +227,19 @@ describe('createEnhancer can create enhancer', () => {
 						return inputFunction(updatedMeta);
 					});
 					const initialMeta = { initial: 'data added' };
-					const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+					const enhanced = compose(
+						enhancerA,
+						enhancerB,
+					)(targetFunction);
 					const result = enhanced(initialMeta);
 					expect(callOrderFunction.mock.calls).toMatchSnapshot();
 					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
 					expect(result).toMatchSnapshot();
 
-					const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+					const reverseEnhanced = compose(
+						enhancerB,
+						enhancerA,
+					)(targetFunction);
 					const reverseResult = reverseEnhanced(initialMeta);
 					expect(callOrderFunction.mock.calls).toMatchSnapshot();
 					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
@@ -243,13 +267,19 @@ describe('createEnhancer can create enhancer', () => {
 						return inputFunction(updatedMeta);
 					});
 					const initialMeta = { initial: 'data added' };
-					const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+					const enhanced = compose(
+						enhancerA,
+						enhancerB,
+					)(targetFunction);
 					const result = enhanced(initialMeta);
 					expect(callOrderFunction.mock.calls).toMatchSnapshot();
 					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
 					expect(result).toMatchSnapshot();
 
-					const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+					const reverseEnhanced = compose(
+						enhancerB,
+						enhancerA,
+					)(targetFunction);
 					const reverseResult = reverseEnhanced(initialMeta);
 					expect(callOrderFunction.mock.calls).toMatchSnapshot();
 					expect(dataStreamFunction.mock.calls).toMatchSnapshot();
@@ -280,13 +310,19 @@ describe('createEnhancer can create enhancer', () => {
 					return inputFunction(updatedMeta);
 				});
 				const initialMeta = { initial: 'data added' };
-				const enhanced = compose(enhancerA, enhancerB)(targetFunction);
+				const enhanced = compose(
+					enhancerA,
+					enhancerB,
+				)(targetFunction);
 				const result = await enhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
 				expect(result).toMatchSnapshot();
 
-				const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
+				const reverseEnhanced = compose(
+					enhancerB,
+					enhancerA,
+				)(targetFunction);
 				const reverseResult = await reverseEnhanced(initialMeta);
 				expect(callOrderFunction.mock.calls).toMatchSnapshot();
 				expect(dataStreamFunction.mock.calls).toMatchSnapshot();
