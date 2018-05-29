@@ -4,6 +4,9 @@ node_modules/@financial-times/n-gage/index.mk:
 
 -include node_modules/@financial-times/n-gage/index.mk
 
+install:
+	@yarn --ignore-engines
+
 build: $(shell find src -type f)
 	@echo 'Building…'
 	@rm -rf dist
