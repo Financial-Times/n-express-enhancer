@@ -1,4 +1,5 @@
-import { createEnhancer, isPromise } from './index';
+import createEnhancer from './enhancer-creator';
+import { isPromise } from './utils';
 
 const addMeta = addedMeta => actionFunction => (paramsOrArgs = {}, meta) => {
 	const call = meta
