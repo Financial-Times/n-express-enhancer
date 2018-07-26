@@ -22,6 +22,7 @@ toolsets to create function enhancer in operation/action model
   * [use res.render](#use-resrender)
   * [chain a series of enhancers](#chain-a-series-of-enhancers)
   * [develop an enhancer](#develop-an-enhancer)
+  * [adaptable enhancer](#adaptable-enhancer)
 - [Available Enhancers](#available-enhancers)
 - [Terminology](#terminology)
   * [operation function](#operation-function)
@@ -107,6 +108,22 @@ export default createEnhancer(enhancerName);
 > more details on [enhancement function](#enhancement-function)
 
 > check how `toMiddleware` is implemented for [example](/src/convertor.js)
+
+
+### adaptable enhancer
+
+`actionOperationAdaptor` makes it handy to simplify the enhancer api to have one adaptable enhancer to enhance action or operation function with corresponding enhancers.
+```js
+import logAction from './action-enhancer';
+import logOperation from './operation-enhancer';
+
+const adaptableEnhancer = actionOperationAdaptor({
+  actionEnhancer: logAction,
+  operationEnhancer: logOperation,
+});
+
+export default adaptableEnhancer;
+```
 
 ## Available Enhancers
 
