@@ -114,6 +114,8 @@ export default createEnhancer(enhancerName);
 
 `actionOperationAdaptor` makes it handy to simplify the enhancer api to have one adaptable enhancer to enhance action or operation function with corresponding enhancers.
 ```js
+import { actionOperationAdaptor } from '@financial-times/n-express-enhancer';
+
 import logAction from './action-enhancer';
 import logOperation from './operation-enhancer';
 
