@@ -125,6 +125,8 @@ const adaptableEnhancer = actionOperationAdaptor({
 export default adaptableEnhancer;
 ```
 
+> Constraints: action function needs to be strictly in signature of `({ meta, ...params }) => ()` to be enhanced adaptable enhancer, as it use function argument length under the hood
+
 ## Available Enhancers
 
 * [n-auto-logger](https://github.com/financial-Times/n-auto-logger) - auto log every operation and action in express
