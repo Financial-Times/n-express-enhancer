@@ -5,4 +5,5 @@ export { default as addMeta } from './add-meta';
 export { default as tagService } from './tag-service';
 export { default as enhancedRender } from './renderer';
 export { default as createEnhancer } from './enhancer-creator';
+export { default as actionOperationAdaptor } from './adaptor';
 export { isPromise } from './utils';
