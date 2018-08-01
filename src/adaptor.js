@@ -3,10 +3,10 @@ const actionOperationAdaptor = ({
 	operationEnhancer,
 }) => targetFunction => {
 	if (targetFunction.length >= 2) {
-		return operationEnhancer(targetFunction);
+		return (...args) => operationEnhancer(targetFunction)(...args);
 	}
 	if (targetFunction.length === 1) {
-		return actionEnhancer(targetFunction);
+		return (...args) => actionEnhancer(targetFunction)(...args);
 	}
 	throw Error(
 		`targetFunction ${
