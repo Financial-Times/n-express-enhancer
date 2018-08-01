@@ -11,7 +11,7 @@ const actionOperationAdaptor = ({
 	throw Error(
 		`targetFunction ${
 			targetFunction.name
-		} can not be decorated with autoLogger`,
+		} can not be enhanced, check if signature meets the requirement`,
 	);
 };
 

@@ -32,7 +32,7 @@ describe('actionOperationAdaptor', () => {
 		const randomFunction = () => {};
 		const execute = () => adaptableEnhancer(randomFunction);
 		expect(execute).toThrowErrorMatchingInlineSnapshot(
-			`"targetFunction randomFunction can not be decorated with autoLogger"`,
+			`"targetFunction randomFunction can not be enhanced, check if signature meets the requirement"`,
 		);
 	});
 });
