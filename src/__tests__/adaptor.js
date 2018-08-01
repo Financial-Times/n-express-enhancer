@@ -30,12 +30,22 @@ describe('actionOperationAdaptor can be used with createEnhancer to create adapt
 		expect(operationFunction.mock.calls).toHaveLength(1);
 	});
 
-	it('use actionEnhancer when enhance action function', () => {
-		const actionFunction = ({ paramA, meta }) => ({ paramA, ...meta });
+	it('to enhance action function correctly', () => {
+		const actionFunction = jest.fn(({ paramA, meta }) => ({ paramA, ...meta }));
 		const enhanced = adaptableEnhancer(actionFunction);
 		enhanced({ paramA: 1 });
 		expect(actionEnhancer.mock.calls).toHaveLength(1);
 		expect(actionEnhancer.mock.calls[0][0]).toBe(actionFunction);
+		expect(actionFunction.mock.calls).toHaveLength(1);
+	});
+
+	it('to enhance action function bundle correctly', () => {
+		const actionFunction = jest.fn(({ paramA, meta }) => ({ paramA, ...meta }));
+		const enhancedBundle = adaptableEnhancer({ actionFunction });
+		enhancedBundle.actionFunction({ paramA: 1 });
+		expect(actionEnhancer.mock.calls).toHaveLength(1);
+		expect(actionEnhancer.mock.calls[0][0]).toBe(actionFunction);
+		expect(actionFunction.mock.calls).toHaveLength(1);
 	});
 
 	it('throws error if target function signature not matching the types', () => {
