@@ -1,10 +1,8 @@
 import createEnhancer from './create-enhancer';
 import { isPromise } from './utils';
 
-const addMeta = addedMeta => actionFunction => (paramsOrArgs = {}, meta) => {
-	const call = meta
-		? actionFunction(paramsOrArgs, { ...meta, ...addedMeta })
-		: actionFunction({ ...paramsOrArgs, ...addedMeta });
+const addMeta = addedMeta => actionFunction => (paramsAndArgs = {}) => {
+	const call = actionFunction({ ...paramsAndArgs, ...addedMeta });
 	if (isPromise(call)) {
 		return call.then(data => data).catch(e => {
 			throw e;
@@ -14,14 +12,14 @@ const addMeta = addedMeta => actionFunction => (paramsOrArgs = {}, meta) => {
 	return data;
 };
 
-export default meta => {
+export default addedMeta => {
 	/*
 		throw error when creating the enhancer
 		not until the enhanced function gets called
 	 */
-	if (typeof meta !== 'object') {
+	if (typeof addedMeta !== 'object') {
 		throw Error('input of addMeta needs to be an object');
 	}
 
-	return createEnhancer(addMeta(meta));
+	return createEnhancer(addMeta(addedMeta));
 };

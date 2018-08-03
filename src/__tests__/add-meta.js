@@ -3,12 +3,12 @@ import addMeta from '../add-meta';
 describe('addMeta', () => {
 	it('create enhancer that can add meta to action functions both async/non-async', async () => {
 		const actionFunctionBundle = {
-			methodA: (params, meta) => meta,
+			methodA: paramsAndMeta => paramsAndMeta,
 			methodB: async args => args,
 		};
 		const addingMeta = { service: 'some-service' };
 		const enhanced = addMeta(addingMeta)(actionFunctionBundle);
-		const resultA = enhanced.methodA({}, {});
+		const resultA = enhanced.methodA({});
 		const resultB = await enhanced.methodB({});
 		expect(resultA).toEqual(addingMeta);
 		expect(resultB).toEqual(addingMeta);
