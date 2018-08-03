@@ -1,51 +1,65 @@
-import actionOperationAdaptor from '../adaptor';
-import createEnhancer from '../enhancer-creator';
+import createAdaptableEnhancer from '../create-adaptable-enhancer';
 
-describe('actionOperationAdaptor can be used with createEnhancer to create adaptableEnhancer', () => {
-	const actionEnhancer = jest.fn(targetFunction => params =>
-		targetFunction(params),
-	);
-	const operationEnhancer = jest.fn(targetFunction => (meta, req, res) =>
-		targetFunction(meta, req, res),
-	);
-	const adaptableEnhancer = createEnhancer(
-		actionOperationAdaptor({
-			actionEnhancer,
-			operationEnhancer,
-		}),
-	);
+describe('createAdaptableEnhancer can create adaptableEnhancer', () => {
+	const sideEffectFunction = jest.fn();
+	const actionEnhancement = jest.fn(inputFunction => params => {
+		sideEffectFunction('actionEnhancement');
+		inputFunction(params);
+	});
+	const operationEnhancement = jest.fn(inputFunction => (meta, req, res) => {
+		sideEffectFunction('operationEnhancement');
+		inputFunction(meta, req, res);
+	});
+	const adaptableEnhancer = createAdaptableEnhancer({
+		actionEnhancement,
+		operationEnhancement,
+	});
 
 	afterEach(() => {
 		jest.clearAllMocks();
 	});
 
 	it('to enhance operation function correctly', () => {
-		const operationFunction = jest.fn((meta, req) => {
-			req.meta = meta;
-		});
+		const operationFunction = jest.fn((meta, req, res) => res);
 		const enhanced = adaptableEnhancer(operationFunction);
 		enhanced({}, {}, {});
-		expect(operationEnhancer.mock.calls).toHaveLength(1);
-		expect(operationEnhancer.mock.calls[0][0]).toBe(operationFunction);
-		expect(operationFunction.mock.calls).toHaveLength(1);
+		expect(operationFunction.mock.calls).toMatchSnapshot();
+		expect(sideEffectFunction.mock.calls).toMatchSnapshot();
+		expect(operationEnhancement.mock.calls).toHaveLength(1);
+		expect(operationEnhancement.mock.calls[0][0]).toBe(operationFunction);
+		expect(actionEnhancement.mock.calls).toHaveLength(0);
 	});
 
 	it('to enhance action function correctly', () => {
 		const actionFunction = jest.fn(({ paramA, meta }) => ({ paramA, ...meta }));
 		const enhanced = adaptableEnhancer(actionFunction);
 		enhanced({ paramA: 1 });
-		expect(actionEnhancer.mock.calls).toHaveLength(1);
-		expect(actionEnhancer.mock.calls[0][0]).toBe(actionFunction);
-		expect(actionFunction.mock.calls).toHaveLength(1);
+		expect(actionFunction.mock.calls).toMatchSnapshot();
+		expect(sideEffectFunction.mock.calls).toMatchSnapshot();
+		expect(actionEnhancement.mock.calls).toHaveLength(1);
+		expect(actionEnhancement.mock.calls[0][0]).toBe(actionFunction);
+		expect(operationEnhancement.mock.calls).toHaveLength(0);
 	});
 
 	it('to enhance action function bundle correctly', () => {
-		const actionFunction = jest.fn(({ paramA, meta }) => ({ paramA, ...meta }));
-		const enhancedBundle = adaptableEnhancer({ actionFunction });
-		enhancedBundle.actionFunction({ paramA: 1 });
-		expect(actionEnhancer.mock.calls).toHaveLength(1);
-		expect(actionEnhancer.mock.calls[0][0]).toBe(actionFunction);
-		expect(actionFunction.mock.calls).toHaveLength(1);
+		const actionFunctionA = jest.fn(({ param, meta }) => ({
+			param,
+			...meta,
+		}));
+		const actionFunctionB = jest.fn(({ param, meta }) => ({
+			param,
+			...meta,
+		}));
+		const enhancedBundle = adaptableEnhancer({
+			actionFunctionA,
+			actionFunctionB,
+		});
+		enhancedBundle.actionFunctionA({ param: 'A' });
+		enhancedBundle.actionFunctionB({ param: 'B' });
+		expect(actionEnhancement.mock.calls).toHaveLength(2);
+		expect(actionEnhancement.mock.calls[0][0]).toBe(actionFunctionA);
+		expect(actionFunctionA.mock.calls).toMatchSnapshot();
+		expect(actionFunctionB.mock.calls).toMatchSnapshot();
 	});
 
 	it('throws error if target function signature not matching the types', () => {

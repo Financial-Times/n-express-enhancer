@@ -1,6 +1,6 @@
 import compose from 'compose-function';
 
-import createEnhancer from '../enhancer-creator';
+import createEnhancer from '../create-enhancer';
 
 describe('createEnhancer can create enhancer', () => {
 	describe('when input function', () => {
@@ -332,7 +332,8 @@ describe('createEnhancer can create enhancer', () => {
 	});
 
 	it('when input is invalid throws error', () => {
-		const enhancer = createEnhancer(input => () => input());
+		const enhancementFunction = input => () => input();
+		const enhancer = createEnhancer(enhancementFunction);
 		const doEnhanceStringInput = () => enhancer('test');
 		expect(doEnhanceStringInput).toThrowErrorMatchingSnapshot();
 

@@ -1,4 +1,4 @@
-import createEnhancer from './enhancer-creator';
+import createEnhancer from './create-enhancer';
 
 const toMiddleware = operationFunction => async (req, res, next) => {
 	try {

@@ -2,8 +2,8 @@ import express from 'express';
 import request from 'supertest';
 import compose from 'compose-function';
 
-import toMiddleware from '../convertor';
-import enhancedRender from '../renderer';
+import toMiddleware from '../to-middleware';
+import enhancedRender from '../enhanced-render';
 
 const commonErrorInstance = { status: 404, message: 'Not Found' };
 const errorOperationFunction = () => {

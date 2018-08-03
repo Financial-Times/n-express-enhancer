@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function bundle correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "param": "A",
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function bundle correctly 2`] = `
+Array [
+  Array [
+    Object {
+      "param": "B",
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "paramA": 1,
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function correctly 2`] = `
+Array [
+  Array [
+    "actionEnhancement",
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance operation function correctly 1`] = `
+Array [
+  Array [
+    Object {},
+    Object {},
+    Object {},
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance operation function correctly 2`] = `
+Array [
+  Array [
+    "operationEnhancement",
+  ],
+]
+`;

@@ -5,7 +5,7 @@ import {
 	tagService,
 	enhancedRender,
 	createEnhancer,
-	actionOperationAdaptor,
+	createAdaptableEnhancer,
 	isPromise,
 } from '../index';
 
@@ -34,8 +34,8 @@ describe('n-express-enhancer exports', () => {
 		expect(typeof createEnhancer).toBe('function');
 	});
 
-	it('actionOperationAdaptor', () => {
-		expect(typeof actionOperationAdaptor).toBe('function');
+	it('createAdaptableEnhancer', () => {
+		expect(typeof createAdaptableEnhancer).toBe('function');
 	});
 
 	it('isPromise', () => {
