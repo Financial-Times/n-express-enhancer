@@ -25,19 +25,21 @@ const enhanceWithBundleKeyName = enhancementFunction => inputBundle =>
 		return { ...enhancedBundle, [methodName]: enhancedMethod };
 	}, {});
 
-const createEnhancer = enhancementFunction => input => {
-	switch (typeof input) {
+const createEnhancer = enhancementFunction => inputFunctionOrBundle => {
+	switch (typeof inputFunctionOrBundle) {
 		case 'function':
-			return enhanceWithName(enhancementFunction)(input);
+			return enhanceWithName(enhancementFunction)(inputFunctionOrBundle);
 		case 'object':
-			Object.keys(input).forEach(key => {
-				if (typeof input[key] !== 'function') {
+			Object.keys(inputFunctionOrBundle).forEach(key => {
+				if (typeof inputFunctionOrBundle[key] !== 'function') {
 					throw Error(
 						'all methods in an object of operation function bundle need to be valid operation function',
 					);
 				}
 			});
-			return enhanceWithBundleKeyName(enhancementFunction)(input);
+			return enhanceWithBundleKeyName(enhancementFunction)(
+				inputFunctionOrBundle,
+			);
 		default:
 			throw Error(
 				`input of ${enhancementFunction.name ||

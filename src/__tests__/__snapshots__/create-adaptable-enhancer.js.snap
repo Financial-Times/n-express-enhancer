@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance action function correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "paramA": 1,
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance action function correctly 2`] = `
+Array [
+  Array [
+    "actionEnhancementB",
+  ],
+  Array [
+    "actionEnhancement",
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance action function correctly in different order 1`] = `
+Array [
+  Array [
+    Object {
+      "paramA": 1,
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance action function correctly in different order 2`] = `
+Array [
+  Array [
+    "actionEnhancement",
+  ],
+  Array [
+    "actionEnhancementB",
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance operation function correctly 1`] = `
+Array [
+  Array [
+    Object {},
+    Object {},
+    Object {},
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance operation function correctly 2`] = `
+Array [
+  Array [
+    "operationEnhancementB",
+  ],
+  Array [
+    "operationEnhancement",
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance operation function correctly when chained in different order 1`] = `
+Array [
+  Array [
+    Object {},
+    Object {},
+    Object {},
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to chain with regular enhancer to enhance operation function correctly when chained in different order 2`] = `
+Array [
+  Array [
+    "operationEnhancement",
+  ],
+  Array [
+    "operationEnhancementB",
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function bundle correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "param": "A",
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function bundle correctly 2`] = `
+Array [
+  Array [
+    Object {
+      "param": "B",
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "paramA": 1,
+    },
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance action function correctly 2`] = `
+Array [
+  Array [
+    "actionEnhancement",
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance operation function correctly 1`] = `
+Array [
+  Array [
+    Object {},
+    Object {},
+    Object {},
+  ],
+]
+`;
+
+exports[`createAdaptableEnhancer can create adaptableEnhancer to enhance operation function correctly 2`] = `
+Array [
+  Array [
+    "operationEnhancement",
+  ],
+]
+`;
