@@ -4,7 +4,7 @@ import createEnhancer from '../create-enhancer';
 
 describe('createEnhancer can create enhancer', () => {
 	describe('when input function', () => {
-		it('output enhanced function with original name amd configurable', () => {
+		it('output enhanced function with configurable name inherited from the input ', () => {
 			const orignal = () => {};
 			const enhancement = input => () => input();
 			const enhancer = createEnhancer(enhancement);
@@ -32,7 +32,7 @@ describe('createEnhancer can create enhancer', () => {
 	});
 
 	describe('when input function bundle', () => {
-		it('output function bundle of functions name as method names', () => {
+		it('output bundle of functions named after method names', () => {
 			const functionBundle = {
 				methodA: () => {},
 				methodB: () => {},
@@ -43,24 +43,7 @@ describe('createEnhancer can create enhancer', () => {
 			expect(enhanced.methodB.name).toBe('methodB');
 		});
 
-		it('update function names in the original bundle methods, so that they can be consistent in enhancement function', () => {
-			const enhancementSideEffect = jest.fn();
-			const functionBundle = {
-				methodA: jest.fn(),
-				methodB: jest.fn(),
-			};
-			const enhancer = createEnhancer(inputFunction => () => {
-				enhancementSideEffect(inputFunction.name);
-				return inputFunction();
-			});
-			const enhanced = enhancer(functionBundle);
-			enhanced.methodA();
-			expect(enhancementSideEffect.mock.calls).toMatchSnapshot();
-			enhanced.methodB();
-			expect(enhancementSideEffect.mock.calls).toMatchSnapshot();
-		});
-
-		it('output function bundle of functions invoking enhancement function and origial functions', () => {
+		it('output bundle of functions invoking enhancement function and origial functions', () => {
 			const enhancementSideEffect = jest.fn();
 			const methodA = jest.fn();
 			const methodB = jest.fn();
@@ -82,8 +65,8 @@ describe('createEnhancer can create enhancer', () => {
 		});
 	});
 
-	describe('that is chainable with enhancers of the same target function signature', () => {
-		describe('invokes enhancement function in correct order so that data can be passed in', () => {
+	describe('chainable with enhancers of the same target function signature', () => {
+		describe('invokes enhancement function in correct order so that data can be passed through', () => {
 			it('non-async enhancement functions', () => {
 				const callOrderFunction = jest.fn();
 				const dataStreamFunction = jest.fn();

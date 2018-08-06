@@ -1,10 +1,10 @@
 import createEnhancer from './create-enhancer';
 
 /*
-	calling useEnhancementBasedFunctionSignature({...})
+	calling enhancementFunctionRouter({...})
 	would returns a enhancement funciton(inputFunction => enhancedFunction)
  */
-const useEnhancementBasedFunctionSignature = ({
+const enhancementFunctionRouter = ({
 	actionEnhancement,
 	operationEnhancement,
 }) => targetFunction => {
@@ -23,7 +23,7 @@ const useEnhancementBasedFunctionSignature = ({
 
 const createAdaptableEnhancer = ({ actionEnhancement, operationEnhancement }) =>
 	createEnhancer(
-		useEnhancementBasedFunctionSignature({
+		enhancementFunctionRouter({
 			actionEnhancement,
 			operationEnhancement,
 		}),

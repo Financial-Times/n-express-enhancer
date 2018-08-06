@@ -1,51 +1,51 @@
-const enhanceWithName = enhancementFunction => inputFunction => {
-	const enhancedFunction = enhancementFunction(inputFunction);
-	/*
-		arrow function would return an anonymouse function,
-		where the function.name would be undefined;
-		inherit the function name to the enhanced function here
-	 */
-	Object.defineProperty(enhancedFunction, 'name', {
-		value: inputFunction.name,
+const inheritName = (name, enhancedFunction) => {
+	const output = enhancedFunction;
+	Object.defineProperty(output, 'name', {
+		value: name,
 		configurable: true,
 	});
-	return enhancedFunction;
+	return output;
 };
 
-const enhanceWithBundleKeyName = enhancementFunction => inputBundle =>
+/*
+	arrow function would return an anonymouse function,
+	where the function.name would be undefined;
+	inherit the function name to the enhanced function here
+ */
+const enhanceWithNameInheritance = enhancementFunction => inputFunction =>
+	inheritName(inputFunction.name, enhancementFunction(inputFunction));
+
+/*
+	override the method name with key name(to define method name) in the bundle
+	for use case when methods are defined in the bundle object as anonymouse function
+ */
+const enhanceBundleWithNameInheritance = enhancementFunction => inputBundle =>
 	Object.keys(inputBundle).reduce((enhancedBundle, methodName) => {
 		const method = inputBundle[methodName];
-		// override the method name with key name(to define method name) in the bundle
-		// for use case where functions are defined directly in the object
-		Object.defineProperty(method, 'name', {
-			value: methodName,
-			configurable: true,
-		});
-		const enhancedMethod = enhanceWithName(enhancementFunction)(method);
-		return { ...enhancedBundle, [methodName]: enhancedMethod };
+		if (typeof method !== 'function') {
+			throw Error(
+				`all properties in a function bundle must be function, check .${methodName}`,
+			);
+		}
+		return {
+			...enhancedBundle,
+			[methodName]: inheritName(methodName, enhancementFunction(method)),
+		};
 	}, {});
 
-const createEnhancer = enhancementFunction => inputFunctionOrBundle => {
-	switch (typeof inputFunctionOrBundle) {
-		case 'function':
-			return enhanceWithName(enhancementFunction)(inputFunctionOrBundle);
-		case 'object':
-			Object.keys(inputFunctionOrBundle).forEach(key => {
-				if (typeof inputFunctionOrBundle[key] !== 'function') {
-					throw Error(
-						'all methods in an object of operation function bundle need to be valid operation function',
-					);
-				}
-			});
-			return enhanceWithBundleKeyName(enhancementFunction)(
-				inputFunctionOrBundle,
-			);
-		default:
-			throw Error(
-				`input of ${enhancementFunction.name ||
-					'enhancementFunction in createEnhancer'} needs to be function or a bundle of function wrapped in an object`,
-			);
+const createFunctionAndBundleEnhancer = enhancementFunction => inputFunctionOrBundle => {
+	if (typeof inputFunctionOrBundle === 'function') {
+		const inputFunction = inputFunctionOrBundle;
+		return enhanceWithNameInheritance(enhancementFunction)(inputFunction);
 	}
+	if (typeof inputFunctionOrBundle === 'object') {
+		const inputBundle = inputFunctionOrBundle;
+		return enhanceBundleWithNameInheritance(enhancementFunction)(inputBundle);
+	}
+	throw Error(
+		`input of ${enhancementFunction.name ||
+			'enhancementFunction in createEnhancer'} needs to be function or a function bundle (Object)`,
+	);
 };
 
-export default createEnhancer;
+export default createFunctionAndBundleEnhancer;
