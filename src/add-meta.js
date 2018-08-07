@@ -1,16 +1,7 @@
 import createEnhancer from './create-enhancer';
-import { isPromise } from './utils';
 
-const addMeta = addedMeta => actionFunction => (paramsAndArgs = {}) => {
-	const call = actionFunction({ ...paramsAndArgs, ...addedMeta });
-	if (isPromise(call)) {
-		return call.then(data => data).catch(e => {
-			throw e;
-		});
-	}
-	const data = call;
-	return data;
-};
+const addMeta = addedMeta => targetFunction => (args = {}) =>
+	targetFunction({ ...args, meta: { ...args.meta, ...addedMeta } });
 
 export default addedMeta => {
 	/*

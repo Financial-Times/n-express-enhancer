@@ -10,8 +10,8 @@ describe('addMeta', () => {
 		const enhanced = addMeta(addingMeta)(actionFunctionBundle);
 		const resultA = enhanced.methodA({});
 		const resultB = await enhanced.methodB({});
-		expect(resultA).toEqual(addingMeta);
-		expect(resultB).toEqual(addingMeta);
+		expect(resultA).toEqual({ meta: { ...addingMeta } });
+		expect(resultB).toEqual({ meta: { ...addingMeta } });
 	});
 
 	it('catches errors thrown from action function both async/non-async', async () => {
@@ -41,13 +41,5 @@ describe('addMeta', () => {
 		expect(() => addMeta(operationFunction)).toThrowErrorMatchingSnapshot();
 	});
 
-	// it('throws error if created enhancer used on operation function', () => {
-	// 	const actionFunction = (params, meta) => meta;
-	// 	const operationFunction = meta => meta;
-	// 	const addingMeta = { service: 'some-service' };
-	// 	const enhanced = addMeta(addingMeta)({
-	// 		actionFunction,
-	// 		operationFunction,
-	// 	});
-	// });
+	// TODO: testing use case on operationFunction
 });
