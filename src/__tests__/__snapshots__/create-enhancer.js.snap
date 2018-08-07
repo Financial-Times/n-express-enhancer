@@ -1,675 +1,141 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async enhancement functions 1`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance async function 1`] = `
 Array [
   Array [
     "enhancerA",
+    Object {
+      "arg": "init",
+    },
   ],
   Array [
     "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async enhancement functions 2`] = `
-Array [
-  Array [
     Object {
-      "initial": "data added",
+      "arg": "init",
+      "enhancerA": "called",
     },
   ],
   Array [
+    "asyncTargetFunction",
     Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
+      "arg": "init",
+      "enhancerA": "called",
+      "enhancerB": "called",
     },
   ],
 ]
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async enhancement functions 3`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance async function 2`] = `
 Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
+  "arg": "init",
+  "enhancerA": "called",
+  "enhancerB": "called",
 }
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async enhancement functions 4`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance async function 3`] = `
 Array [
   Array [
-    "enhancerA",
-  ],
-  Array [
     "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-  Array [
-    "enhancerB",
+    Object {
+      "arg": "init",
+    },
   ],
   Array [
     "enhancerA",
+    Object {
+      "arg": "init",
+      "enhancerB": "called",
+    },
   ],
   Array [
     "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async enhancement functions 5`] = `
-Array [
-  Array [
     Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
+      "arg": "init",
+      "enhancerA": "called",
+      "enhancerB": "called",
     },
   ],
 ]
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async enhancement functions 6`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance async function 4`] = `
 Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
+  "arg": "init",
+  "enhancerA": "called",
+  "enhancerB": "called",
 }
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async target function 1`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance non-async function 1`] = `
 Array [
   Array [
     "enhancerA",
+    Object {
+      "arg": "init",
+    },
   ],
   Array [
     "enhancerB",
+    Object {
+      "arg": "init",
+      "enhancerA": "called",
+    },
   ],
   Array [
     "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async target function 2`] = `
-Array [
-  Array [
     Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
+      "arg": "init",
+      "enhancerA": "called",
+      "enhancerB": "called",
     },
   ],
 ]
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async target function 3`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance non-async function 2`] = `
 Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
+  "arg": "init",
+  "enhancerA": "called",
+  "enhancerB": "called",
 }
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async target function 4`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance non-async function 3`] = `
 Array [
   Array [
-    "enhancerA",
-  ],
-  Array [
     "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-  Array [
-    "enhancerB",
+    Object {
+      "arg": "init",
+    },
   ],
   Array [
     "enhancerA",
+    Object {
+      "arg": "init",
+      "enhancerB": "called",
+    },
   ],
   Array [
     "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async target function 5`] = `
-Array [
-  Array [
     Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
+      "arg": "init",
+      "enhancerA": "called",
+      "enhancerB": "called",
     },
   ],
 ]
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through async target function 6`] = `
+exports[`createEnhancer can create enhancer chainable with non-async enhancers and be invoked in correct order when enhance non-async function 4`] = `
 Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
+  "arg": "init",
+  "enhancerA": "called",
+  "enhancerB": "called",
 }
 `;
 
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through mixed non-async and async enhancement functions 1`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through mixed non-async and async enhancement functions 2`] = `
-Array [
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through mixed non-async and async enhancement functions 3`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through mixed non-async and async enhancement functions 4`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through mixed non-async and async enhancement functions 5`] = `
-Array [
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through mixed non-async and async enhancement functions 6`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through non-async enhancement functions 1`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through non-async enhancement functions 2`] = `
-Array [
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through non-async enhancement functions 3`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through non-async enhancement functions 4`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through non-async enhancement functions 5`] = `
-Array [
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through non-async enhancement functions 6`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked with await if target function async 1`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked with await if target function async 2`] = `
-Array [
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked with await if target function async 3`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked with await if target function async 4`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked with await if target function async 5`] = `
-Array [
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked with await if target function async 6`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked without await if target function not async 1`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked without await if target function not async 2`] = `
-Array [
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked without await if target function not async 3`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked without await if target function not async 4`] = `
-Array [
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "targetFunction",
-  ],
-  Array [
-    "enhancerB",
-  ],
-  Array [
-    "enhancerA",
-  ],
-  Array [
-    "targetFunction",
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked without await if target function not async 5`] = `
-Array [
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "initial": "data added",
-    },
-  ],
-  Array [
-    Object {
-      "enhancerA": "data added",
-      "enhancerB": "data added",
-      "initial": "data added",
-    },
-  ],
-]
-`;
-
-exports[`createEnhancer can create enhancer chainable with enhancers of the same target function signature invokes enhancement function in correct order so that data can be passed through promises based sideEffect functions so that target functions not blocked enhanced can be invoked without await if target function not async 6`] = `
-Object {
-  "enhancerA": "data added",
-  "enhancerB": "data added",
-  "initial": "data added",
-}
-`;
-
-exports[`createEnhancer can create enhancer when input is invalid throws error 1`] = `"input of enhancementFunction needs to be function or a function bundle (Object)"`;
+exports[`createEnhancer can create enhancer when input is invalid throws error 1`] = `"input of enhancementFunction in createEnhancer needs to be function or a function bundle (Object)"`;
 
 exports[`createEnhancer can create enhancer when input is invalid throws error 2`] = `"all properties in a function bundle must be function, check .foo"`;
