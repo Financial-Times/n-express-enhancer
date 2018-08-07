@@ -43,7 +43,7 @@ describe('createEnhancer can create enhancer', () => {
 			expect(enhanced.methodB.name).toBe('methodB');
 		});
 
-		it('output bundle of functions invoking enhancement function and origial functions', () => {
+		it('output bundle of functions invoking enhancement function and original functions', () => {
 			const enhancementSideEffect = jest.fn();
 			const methodA = jest.fn();
 			const methodB = jest.fn();
