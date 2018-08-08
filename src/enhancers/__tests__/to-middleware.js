@@ -3,7 +3,7 @@ import request from 'supertest';
 import compose from 'compose-function';
 
 import toMiddleware from '../to-middleware';
-import enhancedRender from '../enhanced-render';
+import enhancedRender from '../../middlewares/enhanced-render';
 
 const commonErrorInstance = { status: 404, message: 'Not Found' };
 const errorOperationFunction = () => {

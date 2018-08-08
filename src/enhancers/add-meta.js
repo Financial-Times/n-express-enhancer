@@ -1,7 +1,9 @@
-import createEnhancer from './create-enhancer';
+import createEnhancer from '../create-enhancer';
 
-const addMeta = addedMeta => targetFunction => (args = {}) =>
-	targetFunction({ ...args, meta: { ...args.meta, ...addedMeta } });
+const addMeta = addedMeta => actionFunction => (params, meta) => {
+	const updatedMeta = { ...meta, ...addedMeta };
+	return actionFunction(params, updatedMeta);
+};
 
 export default addedMeta => {
 	/*

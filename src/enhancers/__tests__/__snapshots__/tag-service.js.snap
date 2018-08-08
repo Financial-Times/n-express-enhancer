@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create enhancer to add service to meta of action functions 1`] = `
+Object {
+  "service": "some-service",
+}
+`;
