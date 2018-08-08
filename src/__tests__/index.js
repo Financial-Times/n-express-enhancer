@@ -1,8 +1,8 @@
 import {
 	compose,
-	toMiddleware,
 	addMeta,
 	tagService,
+	errorToHandler,
 	enhancedRender,
 	createEnhancer,
 	isPromise,
@@ -13,16 +13,16 @@ describe('n-express-enhancer exports', () => {
 		expect(typeof compose).toBe('function');
 	});
 
-	it('toMiddleware', () => {
-		expect(typeof toMiddleware).toBe('function');
-	});
-
 	it('addMeta', () => {
 		expect(typeof addMeta).toBe('function');
 	});
 
 	it('tagService', () => {
 		expect(typeof tagService).toBe('function');
+	});
+
+	it('errorToHandler', () => {
+		expect(typeof errorToHandler).toBe('function');
 	});
 
 	it('enhancedRender', () => {

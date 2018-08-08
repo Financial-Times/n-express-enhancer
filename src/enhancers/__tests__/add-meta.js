@@ -40,6 +40,4 @@ describe('addMeta', () => {
 		expect(() => addMeta('')).toThrowErrorMatchingSnapshot();
 		expect(() => addMeta(operationFunction)).toThrowErrorMatchingSnapshot();
 	});
-
-	// TODO: testing use case on operationFunction
 });

@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import compose from 'compose-function';
 
-import toMiddleware from '../to-middleware';
+import errorToHandler from '../error-to-handler';
 import enhancedRender from '../../middlewares/enhanced-render';
 
 const commonErrorInstance = { status: 404, message: 'Not Found' };
@@ -19,11 +19,11 @@ const sideEffectFunction = jest.fn();
 const mockMeta = {
 	foo: 'bar',
 };
-const middlewareEnhancer = operationFunction => async (meta = {}, req, res) => {
+const middlewareEnhancer = operationFunction => async (req, res) => {
 	try {
-		const newMeta = { ...meta, ...mockMeta };
+		req.meta = { ...req.meta, ...mockMeta };
 		sideEffectFunction();
-		await operationFunction(newMeta, req, res);
+		await operationFunction(req, res);
 	} catch (e) {
 		throw e;
 	}
@@ -47,19 +47,19 @@ const resMock = {
 	headersSent: false,
 };
 
-describe('toMiddleware input operation function', () => {
+describe('errorToHandler enhance operation function to', () => {
 	afterEach(() => {
 		jest.resetAllMocks();
 		resMock.reset();
 	});
 
-	describe('convert operation function to an express middleware', () => {
+	describe('handle success', () => {
 		describe('and call next() when input resless operation function of', () => {
 			it('async', async () => {
-				const operationFunction = async (meta, req) => {
-					req.test = await 'foo';
+				const operationFunction = async req => {
+					req.test = 'foo';
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const req = {};
 				const next = jest.fn();
@@ -69,10 +69,10 @@ describe('toMiddleware input operation function', () => {
 			});
 
 			it('non-async', async () => {
-				const operationFunction = (meta, req) => {
+				const operationFunction = req => {
 					req.test = 'foo';
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const req = {};
 				const next = jest.fn();
@@ -84,10 +84,10 @@ describe('toMiddleware input operation function', () => {
 
 		describe('and not call next() when input resful operation function of', () => {
 			it('async', async () => {
-				const operationFunction = async (meta, req, res) => {
+				const operationFunction = async (req, res) => {
 					await res.status(200).end();
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -100,10 +100,10 @@ describe('toMiddleware input operation function', () => {
 			});
 
 			it('non-async', async () => {
-				const operationFunction = (meta, req, res) => {
+				const operationFunction = (req, res) => {
 					res.status(200).end();
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -118,12 +118,12 @@ describe('toMiddleware input operation function', () => {
 	});
 
 	describe('handle error in operation function', () => {
-		describe('by next(e) thrown error to errorHandler when convert resless operation function of ', () => {
+		describe('by next(e) thrown error to errorHandler when enhance resless operation function of ', () => {
 			it('async', async () => {
 				const operationFunction = async () => {
 					throw await commonErrorInstance;
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -139,7 +139,7 @@ describe('toMiddleware input operation function', () => {
 				const operationFunction = () => {
 					throw commonErrorInstance;
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -154,14 +154,14 @@ describe('toMiddleware input operation function', () => {
 
 		describe('by error handling in operation function when convert resful operation function of', () => {
 			it('async', async () => {
-				const operationFunction = async (meta, req, res) => {
+				const operationFunction = async (req, res) => {
 					try {
 						throw await commonErrorInstance;
 					} catch (e) {
 						await res.status(500).send('internal server error');
 					}
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -175,14 +175,14 @@ describe('toMiddleware input operation function', () => {
 			});
 
 			it('non-async', async () => {
-				const operationFunction = (meta, req, res) => {
+				const operationFunction = (req, res) => {
 					try {
 						throw commonErrorInstance;
 					} catch (e) {
 						res.status(500).send('internal server error');
 					}
 				};
-				const middleware = toMiddleware(operationFunction);
+				const middleware = errorToHandler(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -199,10 +199,10 @@ describe('toMiddleware input operation function', () => {
 
 	describe('converted resful operation function of res.render works with enhancedRender in case of ', () => {
 		it('success', async () => {
-			const operationFunction = (meta, req, res) => {
+			const operationFunction = (req, res) => {
 				res.render();
 			};
-			const middleware = toMiddleware(operationFunction);
+			const middleware = errorToHandler(operationFunction);
 			const next = jest.fn();
 			await enhancedRender({}, resMock, next);
 			expect(next.mock.calls).toHaveLength(1);
@@ -213,14 +213,14 @@ describe('toMiddleware input operation function', () => {
 		});
 
 		it('failure', async () => {
-			const operationFunction = (meta, req, res) => {
+			const operationFunction = (req, res) => {
 				try {
 					throw commonErrorInstance;
 				} catch (e) {
 					res.render('some page');
 				}
 			};
-			const middleware = toMiddleware(operationFunction);
+			const middleware = errorToHandler(operationFunction);
 			const next = jest.fn();
 			await enhancedRender({}, resMock, next);
 			expect(next.mock.calls).toHaveLength(1);
@@ -234,11 +234,11 @@ describe('toMiddleware input operation function', () => {
 	describe('can convert and triggers an enhanced operation function and pass updated meta in', () => {
 		describe('success of', () => {
 			it('async function', async () => {
-				const operationFunction = async (meta, req, res) => {
-					await res.send(meta);
+				const operationFunction = async (req, res) => {
+					await res.send(req.meta);
 				};
 				const middleware = compose(
-					toMiddleware,
+					errorToHandler,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();
@@ -249,11 +249,11 @@ describe('toMiddleware input operation function', () => {
 			});
 
 			it('non-async function', async () => {
-				const operationFunction = (meta, req, res) => {
-					res.send(meta);
+				const operationFunction = (req, res) => {
+					res.send(req.meta);
 				};
 				const middleware = compose(
-					toMiddleware,
+					errorToHandler,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();
@@ -270,7 +270,7 @@ describe('toMiddleware input operation function', () => {
 					throw await commonErrorInstance;
 				};
 				const middleware = compose(
-					toMiddleware,
+					errorToHandler,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();
@@ -282,7 +282,7 @@ describe('toMiddleware input operation function', () => {
 			it('non-async function', async () => {
 				const operationFunction = errorOperationFunction;
 				const middleware = compose(
-					toMiddleware,
+					errorToHandler,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();

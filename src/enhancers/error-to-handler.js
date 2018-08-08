@@ -1,8 +1,8 @@
 import createEnhancer from '../create-enhancer';
 
-const toMiddleware = operationFunction => async (req, res, next) => {
+const errorToHandler = operationFunction => async (req, res, next) => {
 	try {
-		await operationFunction({}, req, res);
+		await operationFunction(req, res);
 		if (!res.headersSent && !res.rendered) {
 			next();
 		}
@@ -13,4 +13,4 @@ const toMiddleware = operationFunction => async (req, res, next) => {
 	}
 };
 
-export default createEnhancer(toMiddleware);
+export default createEnhancer(errorToHandler);
