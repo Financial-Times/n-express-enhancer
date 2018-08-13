@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import compose from 'compose-function';
 
-import errorToHandler from '../error-to-handler';
+import autoNext from '../auto-next';
 import enhancedRender from '../../middlewares/enhanced-render';
 
 const commonErrorInstance = { status: 404, message: 'Not Found' };
@@ -47,7 +47,7 @@ const resMock = {
 	headersSent: false,
 };
 
-describe('errorToHandler enhance operation function to', () => {
+describe('autoNext enhance operation function to', () => {
 	afterEach(() => {
 		jest.resetAllMocks();
 		resMock.reset();
@@ -59,7 +59,7 @@ describe('errorToHandler enhance operation function to', () => {
 				const operationFunction = async req => {
 					req.test = 'foo';
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const req = {};
 				const next = jest.fn();
@@ -72,7 +72,7 @@ describe('errorToHandler enhance operation function to', () => {
 				const operationFunction = req => {
 					req.test = 'foo';
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const req = {};
 				const next = jest.fn();
@@ -87,7 +87,7 @@ describe('errorToHandler enhance operation function to', () => {
 				const operationFunction = async (req, res) => {
 					await res.status(200).end();
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -103,7 +103,7 @@ describe('errorToHandler enhance operation function to', () => {
 				const operationFunction = (req, res) => {
 					res.status(200).end();
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -123,7 +123,7 @@ describe('errorToHandler enhance operation function to', () => {
 				const operationFunction = async () => {
 					throw await commonErrorInstance;
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -139,7 +139,7 @@ describe('errorToHandler enhance operation function to', () => {
 				const operationFunction = () => {
 					throw commonErrorInstance;
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -161,7 +161,7 @@ describe('errorToHandler enhance operation function to', () => {
 						await res.status(500).send('internal server error');
 					}
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -182,7 +182,7 @@ describe('errorToHandler enhance operation function to', () => {
 						res.status(500).send('internal server error');
 					}
 				};
-				const middleware = errorToHandler(operationFunction);
+				const middleware = autoNext(operationFunction);
 
 				const next = jest.fn();
 				await middleware({}, resMock, next);
@@ -202,7 +202,7 @@ describe('errorToHandler enhance operation function to', () => {
 			const operationFunction = (req, res) => {
 				res.render();
 			};
-			const middleware = errorToHandler(operationFunction);
+			const middleware = autoNext(operationFunction);
 			const next = jest.fn();
 			await enhancedRender({}, resMock, next);
 			expect(next.mock.calls).toHaveLength(1);
@@ -220,7 +220,7 @@ describe('errorToHandler enhance operation function to', () => {
 					res.render('some page');
 				}
 			};
-			const middleware = errorToHandler(operationFunction);
+			const middleware = autoNext(operationFunction);
 			const next = jest.fn();
 			await enhancedRender({}, resMock, next);
 			expect(next.mock.calls).toHaveLength(1);
@@ -238,7 +238,7 @@ describe('errorToHandler enhance operation function to', () => {
 					await res.send(req.meta);
 				};
 				const middleware = compose(
-					errorToHandler,
+					autoNext,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();
@@ -253,7 +253,7 @@ describe('errorToHandler enhance operation function to', () => {
 					res.send(req.meta);
 				};
 				const middleware = compose(
-					errorToHandler,
+					autoNext,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();
@@ -270,7 +270,7 @@ describe('errorToHandler enhance operation function to', () => {
 					throw await commonErrorInstance;
 				};
 				const middleware = compose(
-					errorToHandler,
+					autoNext,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();
@@ -282,7 +282,7 @@ describe('errorToHandler enhance operation function to', () => {
 			it('non-async function', async () => {
 				const operationFunction = errorOperationFunction;
 				const middleware = compose(
-					errorToHandler,
+					autoNext,
 					middlewareEnhancer,
 				)(operationFunction);
 				const app = express();

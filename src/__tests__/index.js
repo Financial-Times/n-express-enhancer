@@ -2,7 +2,7 @@ import {
 	compose,
 	addMeta,
 	tagService,
-	errorToHandler,
+	autoNext,
 	enhancedRender,
 	createEnhancer,
 	isPromise,
@@ -21,8 +21,8 @@ describe('n-express-enhancer exports', () => {
 		expect(typeof tagService).toBe('function');
 	});
 
-	it('errorToHandler', () => {
-		expect(typeof errorToHandler).toBe('function');
+	it('autoNext', () => {
+		expect(typeof autoNext).toBe('function');
 	});
 
 	it('enhancedRender', () => {

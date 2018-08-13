@@ -1,6 +1,6 @@
 import createEnhancer from '../create-enhancer';
 
-const errorToHandler = operationFunction => async (req, res, next) => {
+const autoNext = operationFunction => async (req, res, next) => {
 	try {
 		await operationFunction(req, res);
 		if (!res.headersSent && !res.rendered) {
@@ -13,4 +13,4 @@ const errorToHandler = operationFunction => async (req, res, next) => {
 	}
 };
 
-export default createEnhancer(errorToHandler);
+export default createEnhancer(autoNext);
