@@ -25,7 +25,7 @@ toolsets to create javascript function enhancers ([decorators](https://hackernoo
   * [auto next for express](#auto-next-for-express)
   * [auto log for express](#auto-log-for-express)
   * [auto metrics for express](#auto-metrics-for-express)
-  * [auto next/log/metrics together](#auto-next-log-metrics-together)
+  * [auto next/log/metrics for express](#auto-next-log-metrics-for-express)
 - [Licence](#licence)
 
 <br>
@@ -122,7 +122,7 @@ app.use('/route', enhancedRender, enhancedMiddleware);
 ### auto metrics for express
 [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics) - complementary metrics to refelect operations and actions
 
-### auto next/log/metrics together
+### auto next/log/metrics for express
 [n-express-monitor](https://github.com/financial-Times/n-express-monitor)
 
 ## Licence
