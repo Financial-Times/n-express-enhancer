@@ -21,11 +21,11 @@ toolsets to create javascript function enhancers ([decorators](https://hackernoo
 - [Use Enhancers](#use-enhancers)
   * [enhance a set of functions](#enhance-a-set-of-functions)
   * [chain enhancers together](#chain-enhancers-together)
-  * [auto next() for express](#auto-next-for-express)
-  * [available enhancer packages](#available-enhancer-packages)
-- [Terminology](#terminology)
-  * [operation function](#operation-function)
-  * [action function](#action-function)
+- [Available Enhancers](#available-enhancers)
+  * [auto next for express](#auto-next-for-express)
+  * [auto log for express](#auto-log-for-express)
+  * [auto metrics for express](#auto-metrics-for-express)
+  * [auto next/log/metrics together](#auto-next-log-metrics-together)
 - [Licence](#licence)
 
 <br>
@@ -33,7 +33,7 @@ toolsets to create javascript function enhancers ([decorators](https://hackernoo
 
 ## Install
 ```shell
-npm install @financial-times/n-express-enhancer
+npm install @financial-times/n-express-enhancer -D
 ```
 
 ## Create Enhancers
@@ -77,6 +77,8 @@ export default compose(errorToHandler, enhancerA, enhancerB)(someMiddleware);
 
 > [order of how enhancers would be executed](https://innolitics.com/articles/javascript-decorators-for-promise-returning-functions/)
 
+## Available Enhancers
+
 ### auto next for express
 
 There's an enhancer included in the package that can be used to enhance middleware/controller function in express to next() any error caught to error handler or calling next() on successful middleware execution.
@@ -114,25 +116,14 @@ import { enhancedRender } from '@financial-times/n-express-enhancer';
 app.use('/route', enhancedRender, enhancedMiddleware);
 ```
 
-### available enhancer packages
+### auto log for express
+[n-auto-logger](https://github.com/financial-Times/n-auto-logger) - auto log every operation and action in express
 
-* [n-auto-logger](https://github.com/financial-Times/n-auto-logger) - auto log every operation and action in express
-* [n-auto-metrics](https://github.com/financial-Times/n-auto-metrics) - complementary metrics to refelect operations and actions
+### auto metrics for express
+[n-auto-metrics](https://github.com/financial-Times/n-auto-metrics) - complementary metrics to refelect operations and actions
 
-
-## Terminology
-
-### operation function
-
-Operation Function generally refers to a function with such signature `(meta, req, res) => {}` that can be enhanced by an Enhancer or converted to a Middleware. 
-
-It has a similar signature to express middleware, while `next` is not needed, as it would be taken care of by `toMiddleware` convertor and `meta` is added to allow pass metadata conviniently to functions inside the scope, without mutating `req`, `res` and make the signature distinctive.
-
-Based on the error handling behaviour, there're two types of Operation Function as below.
-
-### action function
-
-Operation Function generally refers to a function with such signature `(params, meta) => {}` that is friendly for logger, validator, etc. 
+### auto next/log/metrics together
+[n-express-monitor](https://github.com/financial-Times/n-express-monitor)
 
 ## Licence
 [MIT](/LICENSE)
