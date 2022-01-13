@@ -75,18 +75,12 @@ describe('createEnhancer can create enhancer', () => {
 		it('when enhance non-async function', () => {
 			const enhancerA = createMockEnhancer('enhancerA');
 			const enhancerB = createMockEnhancer('enhancerB');
-			const enhanced = compose(
-				enhancerA,
-				enhancerB,
-			)(targetFunction);
+			const enhanced = compose(enhancerA, enhancerB)(targetFunction);
 			const result = enhanced(initArg);
 			expect(callOrderFunction.mock.calls).toMatchSnapshot();
 			expect(result).toMatchSnapshot();
 			jest.clearAllMocks();
-			const reverseEnhanced = compose(
-				enhancerB,
-				enhancerA,
-			)(targetFunction);
+			const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
 			const reverseResult = reverseEnhanced(initArg);
 			expect(callOrderFunction.mock.calls).toMatchSnapshot();
 			expect(reverseResult).toMatchSnapshot();
@@ -95,18 +89,12 @@ describe('createEnhancer can create enhancer', () => {
 		it('when enhance async function', async () => {
 			const enhancerA = createMockEnhancer('enhancerA');
 			const enhancerB = createMockEnhancer('enhancerB');
-			const enhanced = compose(
-				enhancerA,
-				enhancerB,
-			)(asyncTargetFunction);
+			const enhanced = compose(enhancerA, enhancerB)(asyncTargetFunction);
 			const result = await enhanced(initArg);
 			expect(callOrderFunction.mock.calls).toMatchSnapshot();
 			expect(result).toMatchSnapshot();
 			jest.clearAllMocks();
-			const reverseEnhanced = compose(
-				enhancerB,
-				enhancerA,
-			)(targetFunction);
+			const reverseEnhanced = compose(enhancerB, enhancerA)(targetFunction);
 			const reverseResult = await reverseEnhanced(initArg);
 			expect(callOrderFunction.mock.calls).toMatchSnapshot();
 			expect(reverseResult).toMatchSnapshot();
