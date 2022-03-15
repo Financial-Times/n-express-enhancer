@@ -143,8 +143,8 @@ workflows:
           requires:
             - build
       - publish:
+          context: npm-publish-token
           filters:
-            context: npm-publish-token
             <<: *filters_version_tag
           requires:
             - test
